@@ -9,12 +9,14 @@ internal static class Extensions
     internal static IServiceCollection AddEvents(this IServiceCollection services,
         IEnumerable<Assembly> assemblies)
     {
-        // services.AddSingleton<IEventDispatcher, EventDispatcher>();
-        //
-        // services.Scan(x => x.FromAssemblies(assemblies)
-        //     .AddClasses(c => c.AssignableTo(typeof(IEventHandler<>)))
-        //     .AsImplementedInterfaces()
-        //     .WithScopedLifetime());
+        services.AddSingleton<EventQueue>();
+        services.AddScoped<IEventDispatcher, EventDispatcher>();
+        services.AddHostedService<EventProcessingService>();
+        
+        services.Scan(x => x.FromAssemblies(assemblies)
+            .AddClasses(c => c.AssignableTo(typeof(IEventHandler<>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
 
         return services;
     }
