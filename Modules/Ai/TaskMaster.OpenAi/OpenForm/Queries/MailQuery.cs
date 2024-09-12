@@ -10,19 +10,19 @@ using TaskMaster.OpenAi.Services;
 
 namespace TaskMaster.OpenAi.OpenForm.Queries;
 
-internal sealed class EssayQuery : ExerciseQueryBase, IQuery<EssayResponseOpenForm>
+internal sealed class MailQuery : ExerciseQueryBase, IQuery<MailResponseOpenForm>
 {
     public int MinimumNumberOfWords { get; set; }
 }
 
-internal sealed class EssayQueryHandler(
+internal sealed class MailQueryHandler(
     IPromptFormatter promptFormatter,
     IObjectSamplerService objectSamplerService,
     IOpenAiExerciseService openAiExerciseService,
-    IEventDispatcher eventDispatcher)
-    : IQueryHandler<EssayQuery, EssayResponseOpenForm>
+    IEventDispatcher eventDispatcher
+    ) : IQueryHandler<MailQuery, MailResponseOpenForm>
 {
-    public async Task<EssayResponseOpenForm> HandleAsync(EssayQuery query)
+    public async Task<MailResponseOpenForm> HandleAsync(MailQuery query)
     {
         var queryAsString = objectSamplerService.GetStringValues(query);
         var suspiciousPromptResponse = await openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString);
@@ -32,13 +32,13 @@ internal sealed class EssayQueryHandler(
             throw new PromptInjectionException(suspiciousPromptResponse.Reasons);
         }
 
-        var exerciseJsonFormat = objectSamplerService.GetSampleJson(typeof(Essay));
+        var exerciseJsonFormat = objectSamplerService.GetSampleJson(typeof(Mail));
 
         var prompt =
-            "1. This is open form - essay exercise. This means that you need to generate a short essay topic to be written by the student.";
+            "1. This is open form - mail exercise. This means that you need to generate a short description of the email to be written by the student. Add information on who the email should be to.";
         prompt += promptFormatter.FormatExerciseBaseData(query);
         prompt +=
-            $"12. In instruction field include information about the minimum number of words in essay - {query.MinimumNumberOfWords}. It's important.\n";
+            $"12. In instruction field include information about the minimum number of words in email - {query.MinimumNumberOfWords}. It's important.\n";
         prompt += $"""
                    13. Your responses should be structured in JSON format as follows:
                    {exerciseJsonFormat}
@@ -47,11 +47,10 @@ internal sealed class EssayQueryHandler(
         var response =
             await openAiExerciseService.PromptForExercise(prompt, query.MotherLanguage, query.TargetLanguage);
 
-        //TODO: add polly?
-        var exercise = JsonSerializer.Deserialize<Essay>(response)
+        var exercise = JsonSerializer.Deserialize<Mail>(response)
                        ?? throw new DeserializationException(response);
 
-        var result = new EssayResponseOpenForm()
+        var result = new MailResponseOpenForm()
         {
             Exercise = exercise,
             ExerciseHeaderInMotherLanguage = query.ExerciseHeaderInMotherLanguage,

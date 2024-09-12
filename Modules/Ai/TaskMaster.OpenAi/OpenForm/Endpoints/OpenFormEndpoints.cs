@@ -12,7 +12,7 @@ internal static class OpenFormEndpoints
         const string route = "open-form";
         const string tag = "OpenForm";
 
-        //app.MapPostEndpoint<MailQuery, OpenFormExerciseResponseMail, Mail>(route, "mail", tag);
+        app.MapPostEndpoint<MailQuery, MailResponseOpenForm, Mail>(route, "mail", tag);
         app.MapPostEndpoint<EssayQuery, EssayResponseOpenForm, Essay>(route, "essay", tag);
         //app.MapPostEndpoint<SummaryOfTextQuery, OpenFormExerciseResponseSummaryOfText, SummaryOfText>(route,
         //    "summary-of-text", tag);
