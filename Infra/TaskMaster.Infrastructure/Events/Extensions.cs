@@ -12,7 +12,7 @@ internal static class Extensions
         services.AddSingleton<EventQueue>();
         services.AddScoped<IEventDispatcher, EventDispatcher>();
         services.AddHostedService<EventProcessingService>();
-        
+
         services.Scan(x => x.FromAssemblies(assemblies)
             .AddClasses(c => c.AssignableTo(typeof(IEventHandler<>)))
             .AsImplementedInterfaces()

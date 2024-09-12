@@ -9,7 +9,7 @@ internal sealed class EventQueue
 
     public async Task QueueEventAsync<TEvent>(TEvent @event) where TEvent : class, IEvent
         => await _events.Writer.WriteAsync(@event);
-    
+
     public async Task<IEnumerable<object>> DequeueAllAsync(CancellationToken cancellationToken)
     {
         var events = new List<object>();

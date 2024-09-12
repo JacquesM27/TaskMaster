@@ -19,10 +19,10 @@ internal sealed class EventProcessingService(IServiceScopeFactory scopeFactory, 
                 var eventType = @event.GetType();
                 var handlers = scope.ServiceProvider.GetServices(typeof(IEventHandler<>).MakeGenericType(eventType)).ToList();
 
-                if (handlers.Count == 0) 
+                if (handlers.Count == 0)
                     continue;
-                
-                var tasks = handlers.Select(handler => 
+
+                var tasks = handlers.Select(handler =>
                     ((Task)typeof(IEventHandler<>)
                         .MakeGenericType(eventType)
                         .GetMethod("HandleAsync")

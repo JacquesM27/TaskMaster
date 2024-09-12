@@ -41,7 +41,7 @@ public static class Extensions
     {
         app.UseAuthentication();
         app.UseAuthorization();
-        
+
         app.UseErrorHandling();
 
         return app;

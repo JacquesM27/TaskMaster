@@ -18,13 +18,13 @@ public class AuthController(JwtSettings jwtSettings) : ControllerBase
     {
         return Ok("This is a secure data");
     }
-    
+
     [HttpGet("public")]
     public IActionResult GetUnsecureData()
     {
         return Ok("This is public data");
     }
-    
+
     [HttpPost("GetMockToken")]
     public IActionResult GetMockToken()
     {

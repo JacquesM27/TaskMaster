@@ -1,4 +1,5 @@
 using TaskMaster.Infrastructure;
+using TaskMaster.OpenAi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(AppDomain.CurrentDomain.GetAssemblies().ToList(), builder.Configuration);
+builder.Services.AddOpenAi(builder.Configuration);
 
 var app = builder.Build();
 
@@ -20,6 +22,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseInfrastructure();
+app.UseOpenAi();
 
 app.MapControllers();
 
