@@ -14,8 +14,8 @@ internal static class OpenFormEndpoints
 
         app.MapPostEndpoint<MailQuery, MailResponseOpenForm, Mail>(route, "mail", tag);
         app.MapPostEndpoint<EssayQuery, EssayResponseOpenForm, Essay>(route, "essay", tag);
-        //app.MapPostEndpoint<SummaryOfTextQuery, OpenFormExerciseResponseSummaryOfText, SummaryOfText>(route,
-        //    "summary-of-text", tag);
+        app.MapPostEndpoint<SummaryOfTextQuery, SummaryOfTextResponseOpenForm, SummaryOfText>(route,
+            "summary-of-text", tag);
 
         return app;
     }
