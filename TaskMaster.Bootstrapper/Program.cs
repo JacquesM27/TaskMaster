@@ -1,4 +1,5 @@
 using TaskMaster.Infrastructure;
+using TaskMaster.Modules.Accounts;
 using TaskMaster.OpenAi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(AppDomain.CurrentDomain.GetAssemblies().ToList(), builder.Configuration);
-builder.Services.AddOpenAi(builder.Configuration);
+builder.Services.AddOpenAi();
+builder.Services.AddAccounts();
 
 var app = builder.Build();
 

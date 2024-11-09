@@ -1,7 +1,7 @@
 ﻿namespace TaskMaster.Infrastructure.Settings;
 
-public sealed class PostgreSqlSettings
+public class PostgresSettings
 {
-    public const string SectionName = "postgres";
+    public const string SectionName = nameof(PostgresSettings);
     public string ConnectionString { get; set; } = string.Empty;
 }

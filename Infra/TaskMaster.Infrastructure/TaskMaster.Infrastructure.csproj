@@ -9,11 +9,4 @@
     <ItemGroup>
       <ProjectReference Include="..\TaskMaster.Abstractions\TaskMaster.Abstractions.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
-        <PackageReference Include="Scrutor" Version="4.2.2"/>
-        <PackageReference Include="Humanizer" Version="2.14.1"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.2" />
-    </ItemGroup>
 </Project>

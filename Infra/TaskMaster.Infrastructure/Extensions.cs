@@ -1,16 +1,19 @@
 ﻿using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using TaskMaster.Abstractions.Cache;
+using TaskMaster.Abstractions.Contexts;
 using TaskMaster.Infrastructure.Auth;
 using TaskMaster.Infrastructure.Cache;
 using TaskMaster.Infrastructure.Commands;
+using TaskMaster.Infrastructure.Contexts;
 using TaskMaster.Infrastructure.Events;
 using TaskMaster.Infrastructure.Exceptions;
+using TaskMaster.Infrastructure.Options;
 using TaskMaster.Infrastructure.Queries;
-using TaskMaster.Infrastructure.Settings;
+using TaskMaster.Infrastructure.Redis;
 
 namespace TaskMaster.Infrastructure;
 
@@ -19,12 +22,13 @@ public static class Extensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IList<Assembly> assemblies,
         IConfiguration configuration)
     {
-        services.Configure<PostgreSqlSettings>(configuration.GetSection(PostgreSqlSettings.SectionName));
-        services.Configure<OpenAiSettings>(configuration.GetSection(OpenAiSettings.SectionName));
-        services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
-        services.AddSingleton(sp => sp.GetRequiredService<IOptions<JwtSettings>>().Value);
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        services.BindOptions(configuration);
+        services.AddSingleton(TimeProvider.System);
 
-        services.AddJwtAuth(configuration);
+        services.AddAuth();
+        services.AddUserContext();
+
         services.AddJwtInSwagger();
         services.AddErrorHandling();
         services.AddCommands(assemblies);
@@ -33,6 +37,7 @@ public static class Extensions
 
         services.AddMemoryCache();
         services.AddSingleton<ICacheStorage, CacheStorage>();
+        services.AddRedis();
 
         return services;
     }
@@ -45,5 +50,13 @@ public static class Extensions
         app.UseErrorHandling();
 
         return app;
+    }
+
+    private static IServiceCollection AddUserContext(this IServiceCollection services)
+    {
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
+            .AddTransient<IContextFactory, ContextFactory>()
+            .AddTransient<IContext>(sp => sp.GetRequiredService<IContextFactory>().Create());
+        return services;
     }
 }

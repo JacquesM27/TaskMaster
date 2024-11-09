@@ -2,6 +2,6 @@
 
 public sealed class OpenAiSettings
 {
-    public const string SectionName = "openAi";
+    public const string SectionName = nameof(OpenAiSettings);
     public string ApiKey { get; set; } = string.Empty;
 }

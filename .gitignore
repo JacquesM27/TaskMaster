@@ -406,3 +406,5 @@ riderModule.iml
 /TaskMaster.Bootstrapper/appsettings.Development.json
 .vs/TaskMaster/v17/.suo
 /.idea
+
+secret_file.txt
