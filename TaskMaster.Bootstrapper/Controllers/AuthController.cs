@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskMaster.Infrastructure.Settings;
 
 namespace TaskMaster.Bootstrapper.Controllers;
 

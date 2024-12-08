@@ -1,45 +1,71 @@
-﻿using System.Text.Json;
-using OpenAI_API;
-using OpenAI_API.Chat;
+﻿using System.Text;
+using System.Text.Json;
+using Microsoft.Extensions.Options;
+using OpenAI;
+using OpenAI.Chat;
+using TaskMaster.Infrastructure.Settings;
 using TaskMaster.OpenAi.Models;
 
 namespace TaskMaster.OpenAi.Services;
 
-internal sealed class OpenAiExerciseService(
-    IOpenAIAPI openAiApi,
-    IPromptFormatter promptFormatter
-    ) : IOpenAiExerciseService
+internal sealed class OpenAiExerciseService : IOpenAiExerciseService
 {
-    private static Conversation? _exerciseChat;
-    private static Conversation? _promptSecurityChat;
+    private readonly IPromptFormatter _promptFormatter;
+    private OpenAIClient _client;
+    private readonly IObjectSamplerService _objectSamplerService;
 
-    public Task<string> PromptForExercise(string prompt, string motherLanguage, string targetLanguage)
+    public OpenAiExerciseService(IPromptFormatter promptFormatter,
+        IOptions<OpenAiSettings> settings, IObjectSamplerService objectSamplerService)
     {
-        if (_exerciseChat is null)
+        _promptFormatter = promptFormatter;
+        _objectSamplerService = objectSamplerService;
+        _client = new OpenAIClient(settings.Value.ApiKey);
+    }
+
+    public async Task<string> PromptForExercise<TExercise>(string prompt, string motherLanguage, string targetLanguage)
+    {
+        var startMessage =
+            _promptFormatter.FormatStartingSystemMessage(motherLanguage, targetLanguage);
+        
+        var schema = _objectSamplerService.GetStaticJsonSchema(typeof(TExercise));
+        var options = new ChatCompletionOptions
         {
-            _exerciseChat = openAiApi.Chat.CreateConversation();
-            var startMessage =
-                promptFormatter.FormatStartingSystemMessage(motherLanguage, targetLanguage);
-            _exerciseChat.AppendSystemMessage(startMessage);
-        }
+            ResponseFormat = ChatResponseFormat.CreateJsonSchemaFormat(
+                jsonSchemaFormatName: $"{typeof(TExercise).Name}_schema",
+                jsonSchema: BinaryData.FromBytes(Encoding.UTF8.GetBytes(schema)),
+                jsonSchemaIsStrict: true)
+        };
 
-        _exerciseChat.AppendUserInput(prompt);
-
-        return _exerciseChat.GetResponseFromChatbotAsync();
+        var messages = new ChatMessage[]
+        {
+            ChatMessage.CreateSystemMessage(startMessage),
+            ChatMessage.CreateUserMessage(prompt)
+        };
+        var chatResponse = await _client.GetChatClient("gpt-4o-2024-11-20").CompleteChatAsync(messages, options);
+        var response = chatResponse.Value.Content[0].Text;
+        return response;
     }
 
     public async Task<SuspiciousPrompt> ValidateAvoidingOriginTopic(string prompt)
     {
-        if (_promptSecurityChat is null)
-        {
-            _promptSecurityChat = openAiApi.Chat.CreateConversation();
-            var startMessage = promptFormatter.FormatValidationSystemMessage();
-            _promptSecurityChat.AppendSystemMessage(startMessage);
-        }
+        var startMessage = _promptFormatter.FormatValidationSystemMessage();
 
-        _promptSecurityChat.AppendUserInput(prompt);
-        var result = await _promptSecurityChat.GetResponseFromChatbotAsync();
-        var deserialized = JsonSerializer.Deserialize<SuspiciousPrompt>(result);
-        return deserialized ?? new SuspiciousPrompt();
+        var messages = new ChatMessage[]
+        {
+            ChatMessage.CreateSystemMessage(startMessage),
+            ChatMessage.CreateUserMessage(prompt)
+        };
+
+        var schema = _objectSamplerService.GetSampleJson(typeof(SuspiciousPrompt));
+        var options = new ChatCompletionOptions();
+        options.ResponseFormat = ChatResponseFormat.CreateJsonSchemaFormat(
+            jsonSchemaFormatName: $"{nameof(SuspiciousPrompt)}_schema",
+            jsonSchema: BinaryData.FromBytes(Encoding.UTF8.GetBytes(schema)),
+            jsonSchemaIsStrict: true);
+
+        var chatResponse = await _client.GetChatClient("gpt-4o-2024-11-20").CompleteChatAsync(messages, options);
+        var response = chatResponse.Value.Content[0].Text;
+        var result = JsonSerializer.Deserialize<SuspiciousPrompt>(response);
+        return result;
     }
 }

@@ -17,7 +17,7 @@ internal static class EndpointExtensions
                 var response = await queryDispatcher.QueryAsync(query);
                 return Results.Ok(response);
             })
-            .RequireAuthorization()
+            //.RequireAuthorization()
             .Produces<TResponse>()
             .WithTags(tag);
     }

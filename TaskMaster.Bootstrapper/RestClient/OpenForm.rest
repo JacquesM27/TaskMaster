@@ -1,0 +1,33 @@
+﻿@email = admin@taskmaster.com
+@password = SuperSecretAdminPassword123!
+@baseUrl = http://localhost:5232
+
+###
+# @name sign_in
+POST {{baseUrl}}/Account/sign-in
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### Assign token from sign_in response
+@token = {{sign_in.response.body.accessToken.generatedToken}}
+
+### 
+# @name open_form_mail
+POST {{baseUrl}}/open-form/mail
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "exerciseHeaderInMotherLanguage": true,
+  "motherLanguage": "Polish",
+  "targetLanguage": "English",
+  "targetLanguageLevel": "B2",
+  "topicsOfSentences": "fruits in africa",
+  "grammarSection": null,
+  "supportMaterial": null,
+  "minimumNumberOfWords": 200
+}

@@ -2,6 +2,9 @@
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Schema;
+using TaskMaster.OpenAi.Models;
+using TaskMaster.OpenAi.OpenForm.Models;
 
 namespace TaskMaster.OpenAi.Services;
 
@@ -9,10 +12,25 @@ internal sealed class ObjectSamplerService : IObjectSamplerService
 {
     private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
 
+    public string GetStaticJsonSchema(Type type)
+    {
+        return type switch
+        {
+            _ when type == typeof(Mail) => OpenFormJsonSchemas.MailJsonSchema,
+            _ when type == typeof(SuspiciousPrompt) => SuspiciousPromptJsonSchema,
+            _ when type == typeof(Essay) => OpenFormJsonSchemas.EssayJsonSchema,
+            _ when type == typeof(SummaryOfText) => OpenFormJsonSchemas.SummaryOfTextJsonSchema,
+            _ => throw new NotSupportedException($"Type {type.Name} is not supported.")
+        };
+    }
+
     public string GetSampleJson(Type type)
     {
-        var sample = GenerateSampleObject(type);
-        return JsonSerializer.Serialize(sample, Options);
+        var options = JsonSerializerOptions.Default;
+        // var sample = GenerateSampleObject(type);
+        // return JsonSerializer.Serialize(sample, Options);
+        var text = options.GetJsonSchemaAsNode(type);
+        return text.ToString();
     }
 
     public string GetStringValues(object? obj)
@@ -66,4 +84,27 @@ internal sealed class ObjectSamplerService : IObjectSamplerService
 
         return obj!;
     }
+
+    private const string SuspiciousPromptJsonSchema = """
+                                                      {
+                                                        "$schema": "http://json-schema.org/draft-07/schema#",
+                                                        "title": "SuspiciousPrompt",
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "IsSuspicious": {
+                                                            "type": "boolean",
+                                                            "description": "Indicates if the prompt is marked as suspicious."
+                                                          },
+                                                          "Reasons": {
+                                                            "type": "array",
+                                                            "description": "List of reasons explaining why the prompt is considered suspicious.",
+                                                            "items": {
+                                                              "type": "string"
+                                                            }
+                                                          }
+                                                        },
+                                                        "additionalProperties": false,
+                                                        "required": ["IsSuspicious", "Reasons"]
+                                                      }
+                                                      """;
 }
