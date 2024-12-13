@@ -1,12 +1,13 @@
-﻿namespace TaskMaster.OpenAi.Models;
+﻿namespace TaskMaster.Models.Exercises.Base;
 
-public class ExerciseQueryBase
+public abstract class ExerciseResponse<TExercise> where TExercise : Exercise
 {
+    public Guid Id { get; } = Guid.NewGuid();
+    public TExercise Exercise { get; set; }
     public bool ExerciseHeaderInMotherLanguage { get; set; }
     public string MotherLanguage { get; set; }
     public string TargetLanguage { get; set; }
     public string TargetLanguageLevel { get; set; }
     public string? TopicsOfSentences { get; set; }
     public string? GrammarSection { get; set; }
-    public string? SupportMaterial { get; set; }
 }

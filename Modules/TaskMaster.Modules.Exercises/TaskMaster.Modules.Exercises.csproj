@@ -1,17 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
-
     <ItemGroup>
-      <Folder Include="EventHandlers\" />
-    </ItemGroup>
-
-    <ItemGroup>
+        <ProjectReference Include="..\..\Infra\TaskMaster.Events\TaskMaster.Events.csproj" />
         <ProjectReference Include="..\..\Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj" />
     </ItemGroup>
-    
+
 </Project>

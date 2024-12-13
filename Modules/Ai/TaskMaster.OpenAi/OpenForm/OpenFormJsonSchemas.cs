@@ -1,4 +1,4 @@
-﻿namespace TaskMaster.OpenAi.OpenForm.Models;
+﻿namespace TaskMaster.OpenAi.OpenForm;
 
 internal static class OpenFormJsonSchemas
 {

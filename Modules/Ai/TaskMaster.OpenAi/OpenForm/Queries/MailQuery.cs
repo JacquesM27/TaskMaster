@@ -3,9 +3,9 @@ using TaskMaster.Abstractions.Events;
 using TaskMaster.Abstractions.Queries;
 using TaskMaster.Events.Exercises.OpenForm;
 using TaskMaster.Events.SupiciousPrompts;
+using TaskMaster.Models.Exercises.Base;
+using TaskMaster.Models.Exercises.OpenForm;
 using TaskMaster.OpenAi.Exceptions;
-using TaskMaster.OpenAi.Models;
-using TaskMaster.OpenAi.OpenForm.Models;
 using TaskMaster.OpenAi.Services;
 
 namespace TaskMaster.OpenAi.OpenForm.Queries;
@@ -55,7 +55,7 @@ internal sealed class MailQueryHandler(
             GrammarSection = query.GrammarSection
         };
 
-        await eventDispatcher.PublishAsync(new OpenFormGenerated(result.Id, response,
+        await eventDispatcher.PublishAsync(new OpenFormGenerated<Mail>(result.Id, exercise,
             result.ExerciseHeaderInMotherLanguage, result.MotherLanguage, result.TargetLanguage,
             result.TargetLanguageLevel, result.TopicsOfSentences, result.GrammarSection));
         return result;

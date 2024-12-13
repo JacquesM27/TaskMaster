@@ -1,6 +1,6 @@
-﻿using TaskMaster.OpenAi.Models;
+﻿using TaskMaster.Models.Exercises.Base;
 
-namespace TaskMaster.OpenAi.OpenForm.Models;
+namespace TaskMaster.Models.Exercises.OpenForm;
 
 public abstract class OpenForm : Exercise
 {

@@ -1,4 +1,4 @@
-﻿using TaskMaster.OpenAi.Models;
+﻿using TaskMaster.Models.Exercises.Base;
 
 namespace TaskMaster.OpenAi.Services;
 

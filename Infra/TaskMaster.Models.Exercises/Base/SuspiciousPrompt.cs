@@ -1,6 +1,6 @@
-﻿namespace TaskMaster.OpenAi.Models;
+﻿namespace TaskMaster.Models.Exercises.Base;
 
-internal sealed class SuspiciousPrompt
+public sealed class SuspiciousPrompt
 {
     public bool IsSuspicious { get; set; } = false;
     public List<string> Reasons { get; set; } = [];

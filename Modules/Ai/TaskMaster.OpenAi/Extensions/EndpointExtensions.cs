@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using TaskMaster.Abstractions.Queries;
-using TaskMaster.OpenAi.Models;
+using TaskMaster.Models.Exercises.Base;
 
 namespace TaskMaster.OpenAi.Extensions;
 

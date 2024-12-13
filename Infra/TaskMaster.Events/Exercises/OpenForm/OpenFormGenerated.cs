@@ -2,20 +2,20 @@
 
 namespace TaskMaster.Events.Exercises.OpenForm;
 
-public sealed record OpenFormGenerated(
+public sealed record OpenFormGenerated<TExercise>(
     Guid Id,
-    string Exercise,
+    TExercise Exercise,
     bool ExerciseHeaderInMotherLanguage,
     string MotherLanguage,
     string TargetLanguage,
     string TargetLanguageLevel,
     string? TopicsOfSentences,
-    string? GrammarSection) : IEvent;
+    string? GrammarSection) : IEvent where TExercise : TaskMaster.Models.Exercises.OpenForm.OpenForm;
 
-public sealed class FakeHandler() : IEventHandler<OpenFormGenerated>
-{
-    public Task HandleAsync(OpenFormGenerated @event)
-    {
-        return Task.CompletedTask;
-    }
-}
+// public sealed class FakeHandler() : IEventHandler<OpenFormGenerated, >
+// {
+//     public Task HandleAsync(OpenFormGenerated @event)
+//     {
+//         return Task.CompletedTask;
+//     }
+// }

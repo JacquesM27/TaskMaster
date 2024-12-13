@@ -8,6 +8,8 @@ internal sealed class OpenFormConfiguration : IEntityTypeConfiguration<OpenForm>
 {
     public void Configure(EntityTypeBuilder<OpenForm> builder)
     {
-        throw new NotImplementedException();
+        builder.HasKey(x => x.Id);
+        // builder.Property(x => x.Exercise).HasColumnType()
+
     }
 }

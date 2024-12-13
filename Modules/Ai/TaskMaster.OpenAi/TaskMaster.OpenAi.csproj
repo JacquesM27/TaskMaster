@@ -1,18 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
-
     <ItemGroup>
       <ProjectReference Include="..\..\..\Infra\TaskMaster.Events\TaskMaster.Events.csproj" />
       <ProjectReference Include="..\..\..\Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\..\Infra\TaskMaster.Models.Exercises\TaskMaster.Models.Exercises.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="OpenAI" Version="2.0.0" />
-    </ItemGroup>
-
+    
 </Project>

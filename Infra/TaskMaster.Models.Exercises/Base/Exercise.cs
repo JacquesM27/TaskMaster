@@ -1,4 +1,4 @@
-﻿namespace TaskMaster.OpenAi.Models;
+﻿namespace TaskMaster.Models.Exercises.Base;
 
 public abstract class Exercise
 {

@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{39F39DD3-D33F-463C-AE30-742497655745}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Infrastructure", "Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj", "{C0D46E57-51D3-4A9D-A20C-0952FCFA82F8}"
@@ -21,6 +24,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Teaching", "Modules\TaskMaster.Modules.Teaching\TaskMaster.Modules.Teaching.csproj", "{2D279FDE-737F-4A24-8A3E-A91C1CE498F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Exercises", "Modules\TaskMaster.Modules.Exercises\TaskMaster.Modules.Exercises.csproj", "{46EC8CC3-E5D4-4D9D-B38C-5D269B44D0F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Models.Exercises", "Infra\TaskMaster.Models.Exercises\TaskMaster.Models.Exercises.csproj", "{6AFF2030-D51E-4EFD-9843-F0CD60587496}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F84B2AB-3A69-4ACB-9D14-E1E1A9B4AB98}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +71,13 @@ Global
 		{46EC8CC3-E5D4-4D9D-B38C-5D269B44D0F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46EC8CC3-E5D4-4D9D-B38C-5D269B44D0F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46EC8CC3-E5D4-4D9D-B38C-5D269B44D0F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AFF2030-D51E-4EFD-9843-F0CD60587496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AFF2030-D51E-4EFD-9843-F0CD60587496}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AFF2030-D51E-4EFD-9843-F0CD60587496}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AFF2030-D51E-4EFD-9843-F0CD60587496}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C0D46E57-51D3-4A9D-A20C-0952FCFA82F8} = {39F39DD3-D33F-463C-AE30-742497655745}
@@ -70,5 +88,6 @@ Global
 		{C8AAEC1D-7B2B-4D4A-AFEE-99B325A02359} = {E3709AC6-0078-457A-9861-44C5C004AB27}
 		{2D279FDE-737F-4A24-8A3E-A91C1CE498F5} = {E3709AC6-0078-457A-9861-44C5C004AB27}
 		{46EC8CC3-E5D4-4D9D-B38C-5D269B44D0F4} = {E3709AC6-0078-457A-9861-44C5C004AB27}
+		{6AFF2030-D51E-4EFD-9843-F0CD60587496} = {39F39DD3-D33F-463C-AE30-742497655745}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using TaskMaster.Models.Exercises.OpenForm;
 using TaskMaster.OpenAi.Extensions;
-using TaskMaster.OpenAi.OpenForm.Models;
 using TaskMaster.OpenAi.OpenForm.Queries;
 
 namespace TaskMaster.OpenAi.OpenForm.Endpoints;

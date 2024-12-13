@@ -3,7 +3,8 @@
 internal sealed class OpenForm
 {
     public Guid Id { get; set; }
-    public string Exercise { get; set; } = string.Empty;
+    public string ExerciseType { get; set; }
+    public Models.Exercises.OpenForm.OpenForm Exercise { get; set; }
     public bool ExerciseHeaderInMotherLanguage { get; set; }
     public string MotherLanguage { get; set; }
     public string TargetLanguage { get; set; }

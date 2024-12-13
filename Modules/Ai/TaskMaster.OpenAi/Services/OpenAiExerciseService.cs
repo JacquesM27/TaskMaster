@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using OpenAI;
 using OpenAI.Chat;
 using TaskMaster.Infrastructure.Settings;
-using TaskMaster.OpenAi.Models;
+using TaskMaster.Models.Exercises.Base;
 
 namespace TaskMaster.OpenAi.Services;
 
