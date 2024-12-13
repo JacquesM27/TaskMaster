@@ -1,7 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <ProjectReference Include="..\TaskMaster.Abstractions\TaskMaster.Abstractions.csproj" />
+        <ProjectReference Include="..\TaskMaster.Abstractions\TaskMaster.Abstractions.csproj"/>
     </ItemGroup>
-    
+
+    <ItemGroup>
+        <PackageReference Include="StackExchange.Redis"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
+        <PackageReference Include="Scrutor"/>
+        <PackageReference Include="Swashbuckle.AspNetCore"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
+    </ItemGroup>
 </Project>

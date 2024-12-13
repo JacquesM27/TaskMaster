@@ -10,4 +10,13 @@
       <ProjectReference Include="..\Modules\TaskMaster.Modules.Accounts\TaskMaster.Modules.Accounts.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.ReDoc"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
+        <PackageReference Include="Serilog.AspNetCore"/>
+        <PackageReference Include="Serilog.Extensions.Logging"/>
+        <PackageReference Include="Serilog.Sinks.Console"/>
+        <PackageReference Include="Serilog.Sinks.File"/>
+    </ItemGroup>
 </Project>

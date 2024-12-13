@@ -2,27 +2,29 @@
     <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
+
+    <!--    <ItemGroup>-->
+    <!--        <FrameworkReference Include="Microsoft.AspnetCore.App"/>-->
+    <!--    </ItemGroup>-->
     
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
-        <PackageReference Include="Scrutor" Version="5.0.2" />
-        <PackageReference Include="Humanizer" Version="2.14.1"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
-        <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
-        <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.0"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0"/>
-        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0"/>
-        <PackageReference Include="StackExchange.Redis" Version="2.8.22"/>
-        <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="7.2.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.2.0" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
-        <PackageReference Include="OpenAI" Version="2.1.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+        <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+        <PackageVersion Include="Scrutor" Version="5.0.2" />
+        <PackageVersion Include="Humanizer" Version="2.14.1"/>
+        <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+        <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0"/>
+        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+        <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
+        <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+        <PackageVersion Include="Serilog.Extensions.Logging" Version="9.0.0"/>
+        <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0"/>
+        <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0"/>
+        <PackageVersion Include="StackExchange.Redis" Version="2.8.22"/>
+        <PackageVersion Include="Swashbuckle.AspNetCore.ReDoc" Version="7.2.0" />
+        <PackageVersion Include="OpenAI" Version="2.1.0" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        </PackageVersion>
     </ItemGroup>
 </Project>
