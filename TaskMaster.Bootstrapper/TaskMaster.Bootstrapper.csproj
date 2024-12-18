@@ -6,8 +6,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj" />
+      <ProjectReference Include="..\Modules\Accounts\TaskMaster.Modules.Accounts\TaskMaster.Modules.Accounts.csproj" />
       <ProjectReference Include="..\Modules\Ai\TaskMaster.OpenAi\TaskMaster.OpenAi.csproj" />
+      <ProjectReference Include="..\Modules\Exercises\TaskMaster.Modules.Exercises\TaskMaster.Modules.Exercises.csproj" />
       <ProjectReference Include="..\Modules\TaskMaster.Modules.Accounts\TaskMaster.Modules.Accounts.csproj" />
+      <ProjectReference Include="..\Modules\TaskMaster.Modules.Exercises\TaskMaster.Modules.Exercises.csproj" />
     </ItemGroup>
 
     <ItemGroup>

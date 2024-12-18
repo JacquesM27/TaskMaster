@@ -1,10 +1,9 @@
 ﻿namespace TaskMaster.Modules.Exercises.Entities;
 
-internal sealed class OpenForm
+internal sealed class SummaryOfText
 {
     public Guid Id { get; set; }
-    public string ExerciseType { get; set; }
-    public Models.Exercises.OpenForm.OpenForm Exercise { get; set; }
+    public Models.Exercises.OpenForm.SummaryOfText Exercise { get; set; }
     public bool ExerciseHeaderInMotherLanguage { get; set; }
     public string MotherLanguage { get; set; }
     public string TargetLanguage { get; set; }

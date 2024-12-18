@@ -1,6 +1,7 @@
 using Swashbuckle.AspNetCore.ReDoc;
 using TaskMaster.Infrastructure;
 using TaskMaster.Modules.Accounts;
+using TaskMaster.Modules.Exercises;
 using TaskMaster.OpenAi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(AppDomain.CurrentDomain.GetAssemblies().ToList(), builder.Configuration);
 builder.Services.AddOpenAi();
 builder.Services.AddAccounts();
+builder.Services.AddExercisesModule();
 
 var app = builder.Build();
 

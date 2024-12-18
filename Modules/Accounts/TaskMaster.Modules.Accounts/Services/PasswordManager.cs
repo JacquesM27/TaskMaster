@@ -5,7 +5,7 @@ using TaskMaster.Modules.Accounts.Exceptions;
 
 namespace TaskMaster.Modules.Accounts.Services;
 
-public sealed partial class PasswordManager : IPasswordManager
+public sealed class PasswordManager : IPasswordManager
 {
     public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
     {
@@ -38,7 +38,7 @@ public sealed partial class PasswordManager : IPasswordManager
         if (!password.Any(char.IsDigit))
             missingRequirements += "Password must contain at least one digit.\n";
 
-        if (!SpecialCharRegex().IsMatch(password))
+        if (!SpecialCharRegex.IsMatch(password))
             missingRequirements += "Password must contain at least one special character.\n";
 
         if (string.IsNullOrWhiteSpace(missingRequirements))
@@ -47,7 +47,9 @@ public sealed partial class PasswordManager : IPasswordManager
         missingRequirements += "All the requirements must be fulfilled.";
         throw new PasswordRequirementsException(missingRequirements);
     }
+    
+    private static Regex SpecialCharRegex => new(@"[!@#$%^&*()_\-=+|\\\/<>?\[\]{}'\"":;,.`]");
 
-    [GeneratedRegex(@"[!@#$%^&*()_\-=+|\\\/<>?\[\]{}'\"":;,.`]")]
-    private static partial Regex SpecialCharRegex();
+    //[GeneratedRegex(@"[!@#$%^&*()_\-=+|\\\/<>?\[\]{}'\"":;,.`]")]
+    //private static partial Regex SpecialCharRegex();
 }

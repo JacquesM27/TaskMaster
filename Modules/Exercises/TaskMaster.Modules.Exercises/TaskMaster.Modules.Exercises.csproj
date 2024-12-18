@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Infra\TaskMaster.Events\TaskMaster.Events.csproj" />
+        <ProjectReference Include="..\..\..\Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

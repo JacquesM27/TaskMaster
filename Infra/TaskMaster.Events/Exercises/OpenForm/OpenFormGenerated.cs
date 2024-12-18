@@ -11,11 +11,3 @@ public sealed record OpenFormGenerated<TExercise>(
     string TargetLanguageLevel,
     string? TopicsOfSentences,
     string? GrammarSection) : IEvent where TExercise : TaskMaster.Models.Exercises.OpenForm.OpenForm;
-
-// public sealed class FakeHandler() : IEventHandler<OpenFormGenerated, >
-// {
-//     public Task HandleAsync(OpenFormGenerated @event)
-//     {
-//         return Task.CompletedTask;
-//     }
-// }
