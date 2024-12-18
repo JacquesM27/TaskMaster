@@ -16,12 +16,4 @@ public static class Extensions
         services.AddHostedService<TDbInitializer>();
         return services;
     }
-    
-    public static IServiceCollection AddPostgres<TDbContext>(this IServiceCollection services)
-        where TDbContext : DbContext
-    {
-        var options = services.GetOptions<PostgresSettings>(PostgresSettings.SectionName);
-        services.AddDbContext<TDbContext>(x => x.UseNpgsql(options.ConnectionString));
-        return services;
-    }
 }

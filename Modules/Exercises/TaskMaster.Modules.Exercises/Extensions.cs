@@ -11,7 +11,7 @@ public static class Extensions
     public static IServiceCollection AddExercisesModule(this IServiceCollection services)
     {
         services
-            .AddPostgres<ExercisesDbContext>()
+            .AddPostgres<ExercisesDbContext, DatabaseInitializer>()
             .AddScoped<IOpenFormRepository, OpenFormRepository>();
         return services;
     }

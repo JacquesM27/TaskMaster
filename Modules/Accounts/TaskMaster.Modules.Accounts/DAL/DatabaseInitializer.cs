@@ -19,7 +19,7 @@ internal sealed class DatabaseInitializer(
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
             dbContext.Database.Migrate();
-            logger.LogInformation("Database migrated");
+            logger.LogInformation("Account database migrated");
 
             var users = dbContext.Users.ToList();
             if (users.Count is not 0)
@@ -59,7 +59,7 @@ internal sealed class DatabaseInitializer(
 
             dbContext.Users.AddRange(users);
             dbContext.SaveChanges();
-            logger.LogInformation("Database initialized");
+            logger.LogInformation("Account database initialized");
         }
 
         return Task.CompletedTask;
