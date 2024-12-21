@@ -9,8 +9,8 @@ internal static class OpenFormEndpoints
 {
     internal static WebApplication AddOpenFormEndpoints(this WebApplication app)
     {
-        const string route = "open-form";
-        const string tag = "OpenForm";
+        const string route = "open-form-ai";
+        const string tag = "OpenFormAi";
 
         app.MapPostEndpoint<MailQuery, MailResponseOpenForm, Mail>(route, "mail", tag);
         app.MapPostEndpoint<EssayQuery, EssayResponseOpenForm, Essay>(route, "essay", tag);
