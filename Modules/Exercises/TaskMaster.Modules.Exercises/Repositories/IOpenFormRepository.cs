@@ -1,22 +1,16 @@
-﻿using TaskMaster.Models.Exercises.OpenForm;
+﻿using TaskMaster.Modules.Exercises.Entities;
 
 namespace TaskMaster.Modules.Exercises.Repositories;
 
 public interface IOpenFormRepository
 {
-    Task<MailDto?> GetMailAsync(Guid id);
-    Task<EssayDto?> GetEssayAsync(Guid id);
-    Task<SummaryOfTextDto?> GetSummaryOfTextAsync(Guid id);
+    Task<Mail?> GetMailAsync(Guid id, CancellationToken cancellationToken);
+    Task<Essay?> GetEssayAsync(Guid id, CancellationToken cancellationToken);
+    Task<SummaryOfText?> GetSummaryOfTextAsync(Guid id, CancellationToken cancellationToken);
     
-    Task AddMailAsync(Mail exercise, Guid id, bool exerciseHeaderInMotherLanguage,
-        string motherLanguage, string targetLanguage, string targetLanguageLevel,
-        string? topicsOfSentences, string? grammarSection);
+    Task AddMailAsync(Mail exercise, CancellationToken cancellationToken);
 
-    Task AddEssayAsync(Essay exercise, Guid id, bool exerciseHeaderInMotherLanguage,
-        string motherLanguage, string targetLanguage, string targetLanguageLevel,
-        string? topicsOfSentences, string? grammarSection);
+    Task AddEssayAsync(Essay exercise, CancellationToken cancellationToken);
 
-    Task AddSummaryOfTextAsync(SummaryOfText exercise, Guid id, bool exerciseHeaderInMotherLanguage,
-        string motherLanguage, string targetLanguage, string targetLanguageLevel,
-        string? topicsOfSentences, string? grammarSection);
+    Task AddSummaryOfTextAsync(SummaryOfText exercise, CancellationToken cancellationToken);
 }

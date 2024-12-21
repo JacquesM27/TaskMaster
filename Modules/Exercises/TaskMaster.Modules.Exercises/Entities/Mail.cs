@@ -1,6 +1,6 @@
 ﻿namespace TaskMaster.Modules.Exercises.Entities;
 
-internal sealed class Mail
+public sealed class Mail
 {
     public Guid Id { get; set; }
     public Models.Exercises.OpenForm.Mail Exercise { get; set; }

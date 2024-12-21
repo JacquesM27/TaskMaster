@@ -1,6 +1,6 @@
 ﻿namespace TaskMaster.Modules.Exercises.Entities;
 
-internal sealed class Essay
+public sealed class Essay
 {
     public Guid Id { get; set; }
     public Models.Exercises.OpenForm.Essay Exercise { get; set; }

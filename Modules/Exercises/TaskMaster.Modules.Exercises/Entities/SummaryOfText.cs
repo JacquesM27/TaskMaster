@@ -1,6 +1,6 @@
 ﻿namespace TaskMaster.Modules.Exercises.Entities;
 
-internal sealed class SummaryOfText
+public sealed class SummaryOfText
 {
     public Guid Id { get; set; }
     public Models.Exercises.OpenForm.SummaryOfText Exercise { get; set; }
