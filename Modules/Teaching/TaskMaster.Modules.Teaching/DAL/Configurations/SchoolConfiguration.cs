@@ -4,7 +4,7 @@ using TaskMaster.Modules.Teaching.Entities;
 
 namespace TaskMaster.Modules.Teaching.DAL.Configurations;
 
-public class SchoolConfiguration : IEntityTypeConfiguration<School>
+internal sealed class SchoolConfiguration : IEntityTypeConfiguration<School>
 {
     public void Configure(EntityTypeBuilder<School> builder)
     {

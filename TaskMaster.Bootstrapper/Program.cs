@@ -2,6 +2,7 @@ using Swashbuckle.AspNetCore.ReDoc;
 using TaskMaster.Infrastructure;
 using TaskMaster.Modules.Accounts;
 using TaskMaster.Modules.Exercises;
+using TaskMaster.Modules.Teaching;
 using TaskMaster.OpenAi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ builder.Services.AddInfrastructure(AppDomain.CurrentDomain.GetAssemblies().ToLis
 builder.Services.AddOpenAi();
 builder.Services.AddAccounts();
 builder.Services.AddExercisesModule();
+builder.Services.AddTeachingModule();
 
 var app = builder.Build();
 

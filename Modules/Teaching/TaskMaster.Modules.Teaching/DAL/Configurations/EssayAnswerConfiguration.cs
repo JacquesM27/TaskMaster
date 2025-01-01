@@ -4,7 +4,7 @@ using TaskMaster.Modules.Teaching.Entities;
 
 namespace TaskMaster.Modules.Teaching.DAL.Configurations;
 
-public class EssayAnswerConfiguration : IEntityTypeConfiguration<EssayAnswer>
+internal sealed class EssayAnswerConfiguration : IEntityTypeConfiguration<EssayAnswer>
 {
     public void Configure(EntityTypeBuilder<EssayAnswer> builder)
     {

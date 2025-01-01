@@ -4,7 +4,7 @@ using TaskMaster.Modules.Teaching.Entities;
 
 namespace TaskMaster.Modules.Teaching.DAL.Configurations;
 
-public class AssignmentExerciseConfiguration : IEntityTypeConfiguration<AssignmentExercise>
+internal sealed class AssignmentExerciseConfiguration : IEntityTypeConfiguration<AssignmentExercise>
 {
     public void Configure(EntityTypeBuilder<AssignmentExercise> builder)
     {

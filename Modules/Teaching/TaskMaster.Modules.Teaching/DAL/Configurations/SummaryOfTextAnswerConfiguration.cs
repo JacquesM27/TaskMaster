@@ -4,7 +4,7 @@ using TaskMaster.Modules.Teaching.Entities;
 
 namespace TaskMaster.Modules.Teaching.DAL.Configurations;
 
-public class SummaryOfTextAnswerConfiguration : IEntityTypeConfiguration<SummaryOfTextAnswer>
+internal sealed class SummaryOfTextAnswerConfiguration : IEntityTypeConfiguration<SummaryOfTextAnswer>
 {
     public void Configure(EntityTypeBuilder<SummaryOfTextAnswer> builder)
     {

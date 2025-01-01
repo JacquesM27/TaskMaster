@@ -6,4 +6,5 @@ public class School
     public string Name { get; set; }
     public IEnumerable<TeachingClass> Classes { get; set; }
     public IEnumerable<SchoolTeacher> SchoolTeachers { get; set; }
+    public IEnumerable<SchoolAdmin> SchoolAdmins { get; set; }
 }

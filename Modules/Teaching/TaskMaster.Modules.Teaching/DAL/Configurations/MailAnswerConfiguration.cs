@@ -4,7 +4,7 @@ using TaskMaster.Modules.Teaching.Entities;
 
 namespace TaskMaster.Modules.Teaching.DAL.Configurations;
 
-public class MailAnswerConfiguration : IEntityTypeConfiguration<MailAnswer>
+internal sealed class MailAnswerConfiguration : IEntityTypeConfiguration<MailAnswer>
 {
     public void Configure(EntityTypeBuilder<MailAnswer> builder)
     {

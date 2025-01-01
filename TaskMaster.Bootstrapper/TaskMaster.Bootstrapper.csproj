@@ -11,6 +11,7 @@
       <ProjectReference Include="..\Modules\Exercises\TaskMaster.Modules.Exercises\TaskMaster.Modules.Exercises.csproj" />
       <ProjectReference Include="..\Modules\Accounts\TaskMaster.Modules.Accounts\TaskMaster.Modules.Accounts.csproj" />
       <ProjectReference Include="..\Modules\Exercises\TaskMaster.Modules.Exercises\TaskMaster.Modules.Exercises.csproj" />
+      <ProjectReference Include="..\Modules\Teaching\TaskMaster.Modules.Teaching\TaskMaster.Modules.Teaching.csproj" />
     </ItemGroup>
 
     <ItemGroup>
