@@ -8,7 +8,9 @@ public class AssignmentExerciseConfiguration : IEntityTypeConfiguration<Assignme
 {
     public void Configure(EntityTypeBuilder<AssignmentExercise> builder)
     {
-        builder.HasKey(ae => new {ae.AssignmentId, ae.ExerciseId});
+        builder.HasKey(ae => ae.Id);
+        
+        builder.HasIndex(ae => new { ae.AssignmentId, ae.ExerciseId });
         builder.HasOne(ae => ae.Assignment)
             .WithMany(ae => ae.Exercises)
             .HasForeignKey(ae => ae.AssignmentId);

@@ -25,6 +25,7 @@ public class TeachingClassConfiguration : IEntityTypeConfiguration<TeachingClass
         builder.HasMany(tc => tc.Assignments)
             .WithOne(ca => ca.TeachingClass)
             .HasForeignKey(ca => ca.TeachingClassId)
-            .OnDelete(DeleteBehavior.Cascade);
+            //.OnDelete(DeleteBehavior.Cascade)
+            ;
     }
 }
