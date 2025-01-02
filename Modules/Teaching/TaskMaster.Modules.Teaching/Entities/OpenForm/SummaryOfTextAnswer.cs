@@ -1,4 +1,4 @@
-﻿namespace TaskMaster.Modules.Teaching.Entities;
+﻿namespace TaskMaster.Modules.Teaching.Entities.OpenForm;
 
 public class SummaryOfTextAnswer
 {

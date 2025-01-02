@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskMaster.Modules.Teaching.Entities;
+using TaskMaster.Modules.Teaching.Entities.OpenForm;
 
 namespace TaskMaster.Modules.Teaching.DAL.Configurations;
 

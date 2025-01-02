@@ -3,9 +3,5 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="DAL\Repositories\" />
-    </ItemGroup>
     
 </Project>
