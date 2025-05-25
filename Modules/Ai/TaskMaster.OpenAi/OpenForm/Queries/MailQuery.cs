@@ -32,14 +32,20 @@ internal sealed class MailQueryHandler(
             throw new PromptInjectionException(suspiciousPromptResponse.Reasons);
         }
         
+        var exerciseJsonFormat = objectSamplerService.GetSampleJson(typeof(Mail));
+        
         var prompt =
             "1. This is open form - mail exercise. This means that you need to generate a short description of the email to be written by the student. Add information on who the email should be to.";
         prompt += promptFormatter.FormatExerciseBaseData(query);
         prompt +=
             $"12. In instruction field include information about the minimum number of words in email - {query.MinimumNumberOfWords}. It's important.\n";
+        prompt += $"""
+                   13. Your responses should be structured in JSON format as follows:
+                   {exerciseJsonFormat}
+                   """;
 
         var response =
-            await openAiExerciseService.PromptForExercise<Mail>(prompt, query.MotherLanguage, query.TargetLanguage);
+            await openAiExerciseService.PromptForExercise(prompt, query.MotherLanguage, query.TargetLanguage);
 
         var exercise = JsonSerializer.Deserialize<Mail>(response)
                        ?? throw new DeserializationException(response);

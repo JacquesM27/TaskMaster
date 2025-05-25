@@ -13,25 +13,25 @@ internal sealed class ObjectSamplerService : IObjectSamplerService
 {
     private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
 
-    public string GetStaticJsonSchema(Type type)
-    {
-        return type switch
-        {
-            _ when type == typeof(Mail) => OpenFormJsonSchemas.MailJsonSchema,
-            _ when type == typeof(SuspiciousPrompt) => SuspiciousPromptJsonSchema,
-            _ when type == typeof(Essay) => OpenFormJsonSchemas.EssayJsonSchema,
-            _ when type == typeof(SummaryOfText) => OpenFormJsonSchemas.SummaryOfTextJsonSchema,
-            _ => throw new NotSupportedException($"Type {type.Name} is not supported.")
-        };
-    }
+    // public string GetStaticJsonSchema(Type type)
+    // {
+    //     return type switch
+    //     {
+    //         _ when type == typeof(Mail) => OpenFormJsonSchemas.MailJsonSchema,
+    //         _ when type == typeof(SuspiciousPrompt) => SuspiciousPromptJsonSchema,
+    //         _ when type == typeof(Essay) => OpenFormJsonSchemas.EssayJsonSchema,
+    //         _ when type == typeof(SummaryOfText) => OpenFormJsonSchemas.SummaryOfTextJsonSchema,
+    //         _ => throw new NotSupportedException($"Type {type.Name} is not supported.")
+    //     };
+    // }
 
     public string GetSampleJson(Type type)
     {
-        var options = JsonSerializerOptions.Default;
-        // var sample = GenerateSampleObject(type);
-        // return JsonSerializer.Serialize(sample, Options);
-        var text = options.GetJsonSchemaAsNode(type);
-        return text.ToString();
+        // var options = JsonSerializerOptions.Default;
+        var sample = GenerateSampleObject(type);
+        return JsonSerializer.Serialize(sample, Options);
+        // var text = options.GetJsonSchemaAsNode(type);
+        // return text.ToString();
     }
 
     public string GetStringValues(object? obj)

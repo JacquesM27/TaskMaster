@@ -27,13 +27,18 @@ internal sealed class SummaryOfTextQueryHandler(
              await eventDispatcher.PublishAsync(new SuspiciousPromptInjected(suspiciousPromptResponse.Reasons));
              throw new PromptInjectionException(suspiciousPromptResponse.Reasons);
          }
+         var exerciseJsonFormat = objectSamplerService.GetSampleJson(typeof(SummaryOfText));
 
          var prompt =
              "1. This is open form - summary of text exercise. This means that you need to generate a story (about 10 sentences) to be summarized by the student.";
          prompt += promptFormatter.FormatExerciseBaseData(query);
+         prompt += $"""
+                    12. Your responses should be structured in JSON format as follows:
+                    {exerciseJsonFormat}
+                    """;
 
          var response =
-             await openAiExerciseService.PromptForExercise<SummaryOfText>(prompt, query.MotherLanguage, query.TargetLanguage);
+             await openAiExerciseService.PromptForExercise(prompt, query.MotherLanguage, query.TargetLanguage);
 
          var exercise = JsonSerializer.Deserialize<SummaryOfText>(response)
                         ?? throw new DeserializationException(response);
