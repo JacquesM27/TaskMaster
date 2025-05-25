@@ -2,6 +2,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\..\TasMaster.Queries\TasMaster.Queries.csproj" />
     </ItemGroup>
 
 </Project>

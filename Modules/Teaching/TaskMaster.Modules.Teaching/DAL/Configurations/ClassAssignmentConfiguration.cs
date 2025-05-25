@@ -9,6 +9,8 @@ internal sealed class ClassAssignmentConfiguration : IEntityTypeConfiguration<Cl
     public void Configure(EntityTypeBuilder<ClassAssignment> builder)
     {
         builder.HasKey(ca => ca.Id);
+        builder.Property(a => a.DueDate).IsRequired();
+        builder.Property(a => a.Password).IsRequired(false).HasMaxLength(100);
         
         builder.HasOne(ca => ca.TeachingClass)
             .WithMany(tc => tc.Assignments)

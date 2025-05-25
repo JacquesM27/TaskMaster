@@ -39,6 +39,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Teaching", "Teaching", "{13
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Teaching", "Modules\Teaching\TaskMaster.Modules.Teaching\TaskMaster.Modules.Teaching.csproj", "{B82640AF-87A2-463B-9FBD-C55F11204273}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Models.Teaching", "TaskMaster.Models.Teaching\TaskMaster.Models.Teaching.csproj", "{CE46299B-22A7-4BEE-A752-6D143D66EC37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TasMaster.Queries", "TasMaster.Queries\TasMaster.Queries.csproj", "{BF52AD8A-9877-4894-9487-01E4FD19AE24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{B82640AF-87A2-463B-9FBD-C55F11204273}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B82640AF-87A2-463B-9FBD-C55F11204273}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B82640AF-87A2-463B-9FBD-C55F11204273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE46299B-22A7-4BEE-A752-6D143D66EC37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE46299B-22A7-4BEE-A752-6D143D66EC37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE46299B-22A7-4BEE-A752-6D143D66EC37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE46299B-22A7-4BEE-A752-6D143D66EC37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF52AD8A-9877-4894-9487-01E4FD19AE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF52AD8A-9877-4894-9487-01E4FD19AE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF52AD8A-9877-4894-9487-01E4FD19AE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF52AD8A-9877-4894-9487-01E4FD19AE24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,5 +110,7 @@ Global
 		{50EB5346-E4FD-40E3-A80E-C80EE7C29A74} = {120BCB4C-F021-4862-A339-EA4506D6EC1D}
 		{1355E916-CB3A-49BE-8489-47133B7B8DF1} = {E3709AC6-0078-457A-9861-44C5C004AB27}
 		{B82640AF-87A2-463B-9FBD-C55F11204273} = {1355E916-CB3A-49BE-8489-47133B7B8DF1}
+		{CE46299B-22A7-4BEE-A752-6D143D66EC37} = {39F39DD3-D33F-463C-AE30-742497655745}
+		{BF52AD8A-9877-4894-9487-01E4FD19AE24} = {39F39DD3-D33F-463C-AE30-742497655745}
 	EndGlobalSection
 EndGlobal

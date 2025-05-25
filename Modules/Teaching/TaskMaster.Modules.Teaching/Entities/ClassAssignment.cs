@@ -3,6 +3,8 @@
 public class ClassAssignment
 {
     public Guid Id { get; set; }
+    public DateTime DueDate { get; set; }
+    public string? Password { get; set; }
     
     public Guid TeachingClassId { get; set; }
     public TeachingClass TeachingClass { get; set; }

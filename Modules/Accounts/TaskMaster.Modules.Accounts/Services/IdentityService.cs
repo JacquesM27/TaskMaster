@@ -23,6 +23,12 @@ internal sealed class IdentityService(
                 user.CreatedAt, user.Claims);
     }
 
+    public async Task<Guid?> GetIdByEmailAsync(string email)
+    {
+        var user = await userRepository.GetAsync(email);
+        return user?.Id;
+    }
+
     public async Task SignUpAsync(SignUpDto signUpDto)
     {
         var email = signUpDto.Email.ToLowerInvariant();

@@ -17,4 +17,5 @@ public sealed class User
     public bool Banned { get; set; }
     public DateTime CreatedAt { get; set; }
     public Dictionary<string, IEnumerable<string>> Claims { get; set; } = [];
+    public string UniqueNumber { get; set; } = string.Empty;
 }
