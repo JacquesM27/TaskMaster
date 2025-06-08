@@ -2,5 +2,5 @@
 
 namespace TaskMaster.Modules.Teaching.Exceptions;
 
-public sealed class TeacherNotFoundException(string email) 
-    : CustomException($"Teacher with email: '{email}' was not found");
+public sealed class TeacherNotFoundException(Guid guid) 
+    : CustomException($"Teacher with id: '{guid}' was not found");

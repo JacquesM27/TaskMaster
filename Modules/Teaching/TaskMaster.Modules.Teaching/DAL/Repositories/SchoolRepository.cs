@@ -15,6 +15,12 @@ internal sealed class SchoolRepository(TeachingDbContext context) : ISchoolRepos
     public Task<School?> GetSchoolAsync(Guid id, CancellationToken cancellationToken) 
         => context.Schools.SingleOrDefaultAsync(s => s.Id == id, cancellationToken);
 
+    public Task UpdateSchoolAsync(School school, CancellationToken cancellationToken)
+    {
+        context.Schools.Update(school);
+        return context.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task AddSchoolAdminAsync(SchoolAdmin schoolAdmin, CancellationToken cancellationToken)
     {
         await context.SchoolAdmins.AddAsync(schoolAdmin, cancellationToken);

@@ -17,95 +17,74 @@ internal sealed class SchoolService(ISchoolRepository repo, IQueryDispatcher que
             Name = newSchoolDto.Name,
             SchoolAdmins = []
         };
-        
-        if (newSchoolDto.AdminsMails.Any())
-        {
-            var adminsTasks = newSchoolDto.AdminsMails
-                .Select(mail => new UserIdByEmailQuery(mail))
-                .Select(queryDispatcher.QueryAsync)
-                .ToList();
-
-            await foreach (var finishedTask in Task.WhenEach(adminsTasks).WithCancellation(cancellationToken))
-            {
-                if (!finishedTask.Result.HasValue)
-                    continue;
-
-                school.SchoolAdmins.Add(new SchoolAdmin
-                {
-                    AdminId = finishedTask.Result.Value,
-                    School = school,
-                    SchoolId = school.Id,
-                });
-            }
-        }
-
-        if (newSchoolDto.TeachersMails.Any())
-        {
-            var teachersTasks = newSchoolDto.TeachersMails
-                .Select(m => new UserIdByEmailQuery(m))
-                .Select(queryDispatcher.QueryAsync)
-                .ToList();
-
-            await foreach (var finishedTask in Task.WhenEach(teachersTasks).WithCancellation(cancellationToken))
-            {
-                if (!finishedTask.Result.HasValue)
-                    continue;
-                
-                school.SchoolTeachers.Add(new SchoolTeacher()
-                {
-                    School = school,
-                    SchoolId = school.Id,
-                    TeacherId = finishedTask.Result.Value
-                });
-            }
-        }
 
         await repo.AddSchoolAsync(school, cancellationToken);
         return school.Id;
+    }
+
+    public async Task AddSchoolTeacherAsync(Guid schoolId, Guid teacherId, CancellationToken cancellationToken)
+    {
+        var school = await repo.GetSchoolAsync(schoolId, cancellationToken)
+                     ?? throw new SchoolNotFoundException(schoolId);
+        
+        school.SchoolTeachers.Add(new SchoolTeacher
+        {
+            SchoolId = schoolId,
+            TeacherId = teacherId
+        });
+        await repo.UpdateSchoolAsync(school, cancellationToken);
+    }
+
+    public async Task RemoveSchoolTeacherAsync(Guid schoolId, Guid teacherId, CancellationToken cancellationToken)
+    {
+        var school = await repo.GetSchoolAsync(schoolId, cancellationToken)
+                     ?? throw new SchoolNotFoundException(schoolId);
+
+        var schoolTeacher = school.SchoolTeachers.FirstOrDefault(st => st.TeacherId == teacherId);
+        
+        if (schoolTeacher is null)
+            return;
+
+        school.SchoolTeachers.Remove(schoolTeacher);
+        await repo.UpdateSchoolAsync(school, cancellationToken);
+    }
+
+    public async Task AddSchoolAdminAsync(Guid schoolId, Guid teacherId, CancellationToken cancellationToken)
+    {
+        var school = await repo.GetSchoolAsync(schoolId, cancellationToken)
+                     ?? throw new SchoolNotFoundException(schoolId);
+
+        school.SchoolAdmins.Add(new SchoolAdmin
+        {
+            SchoolId = schoolId,
+            AdminId = teacherId
+        });
+        await repo.UpdateSchoolAsync(school, cancellationToken);
+    }
+
+    public async Task RemoveSchoolAdminAsync(Guid schoolId, Guid teacherId, CancellationToken cancellationToken)
+    {
+        var school = await repo.GetSchoolAsync(schoolId, cancellationToken)
+                     ?? throw new SchoolNotFoundException(schoolId);
+
+        var schoolAdmin = school.SchoolAdmins.FirstOrDefault(sa => sa.AdminId == teacherId);
+        
+        if (schoolAdmin is null)
+            return;
+
+        school.SchoolAdmins.Remove(schoolAdmin);
+        await repo.UpdateSchoolAsync(school, cancellationToken);
+    }
+
+    public Task<SchoolDetailsDto?> GetSchoolAsync(Guid schoolId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<Guid> CreateTeachingClassAsync(NewTeachingClassDto newTeachingClassDto, CancellationToken cancellationToken)
     {
         var school = await repo.GetSchoolAsync(newTeachingClassDto.SchoolId, cancellationToken)
                      ?? throw new SchoolNotFoundException(newTeachingClassDto.SchoolId);
-
-        var mainTeacherQuery = new UserIdByEmailQuery(newTeachingClassDto.MainTeacherMail);
-        var mainTeacherId = await queryDispatcher.QueryAsync(mainTeacherQuery)
-                            ?? throw new TeacherNotFoundException(newTeachingClassDto.MainTeacherMail);
-        
-        var subTeacherIds = new List<Guid>();
-        if (newTeachingClassDto.SubTeachersMails.Any())
-        {
-            var subTeachersTasks = newTeachingClassDto.SubTeachersMails
-                .Select(m => new UserIdByEmailQuery(m))
-                .Select(queryDispatcher.QueryAsync)
-                .ToList();
-
-            await foreach (var finishedTask in Task.WhenEach(subTeachersTasks).WithCancellation(cancellationToken))
-            {
-                if (!finishedTask.Result.HasValue)
-                    continue;
-                
-                subTeacherIds.Add(finishedTask.Result.Value);
-            }
-        }
-        
-        var studentIds = new List<Guid>();
-        if (newTeachingClassDto.StudentsMails.Any())
-        {
-            var studentsTasks = newTeachingClassDto.StudentsMails
-                .Select(m => new UserIdByEmailQuery(m))
-                .Select(queryDispatcher.QueryAsync)
-                .ToList();
-
-            await foreach (var finishedTask in Task.WhenEach(studentsTasks).WithCancellation(cancellationToken))
-            {
-                if (!finishedTask.Result.HasValue)
-                    continue;
-                
-                studentIds.Add(finishedTask.Result.Value);
-            }
-        }
 
         var teachingClass = new TeachingClass()
         {
@@ -114,13 +93,23 @@ internal sealed class SchoolService(ISchoolRepository repo, IQueryDispatcher que
             Level = newTeachingClassDto.Level,
             Language = newTeachingClassDto.Language,
             SchoolId = school.Id,
-            School = school,
-            MainTeacherId = mainTeacherId,
-            SubTeachersIds = subTeacherIds,
-            StudentsIds = studentIds
+            School = school
         };
+        
+        if (newTeachingClassDto.MainTeacherId is not null)
+        {
+            teachingClass.MainTeacherId = newTeachingClassDto.MainTeacherId.Value;
+        }
+
+        teachingClass.SubTeachersIds = newTeachingClassDto.SubTeachersIds.ToList();
+        teachingClass.StudentsIds = newTeachingClassDto.StudentsIts.ToList();
     
         await repo.AddTeachingClassAsync(teachingClass, cancellationToken);
         return teachingClass.Id;
+    }
+
+    public Task<TeachingClassDetailsDto?> GetTeachingClassAsync(Guid classId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }

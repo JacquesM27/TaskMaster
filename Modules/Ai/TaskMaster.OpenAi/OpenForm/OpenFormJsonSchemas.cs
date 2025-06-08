@@ -1,5 +1,6 @@
 ﻿namespace TaskMaster.OpenAi.OpenForm;
 
+[Obsolete("Not used because of problems with OpenAI API and JSON schema.")]
 internal static class OpenFormJsonSchemas
 {
     internal const string MailJsonSchema = """
@@ -122,4 +123,27 @@ internal static class OpenFormJsonSchemas
                                                      "required": ["Header", "TextToSummary"]
                                                    }
                                                    """;
+    
+    internal const string SuspiciousPromptJsonSchema = """
+                                                      {
+                                                        "$schema": "http://json-schema.org/draft-07/schema#",
+                                                        "title": "SuspiciousPrompt",
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "IsSuspicious": {
+                                                            "type": "boolean",
+                                                            "description": "Indicates if the prompt is marked as suspicious."
+                                                          },
+                                                          "Reasons": {
+                                                            "type": "array",
+                                                            "description": "List of reasons explaining why the prompt is considered suspicious.",
+                                                            "items": {
+                                                              "type": "string"
+                                                            }
+                                                          }
+                                                        },
+                                                        "additionalProperties": false,
+                                                        "required": ["IsSuspicious", "Reasons"]
+                                                      }
+                                                      """;
 }

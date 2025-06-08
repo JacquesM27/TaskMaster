@@ -4,7 +4,8 @@ public sealed record UserDto(
     Guid Id,
     string Email,
     string Role,
-    string Firstname,
-    string Lastname,
+    string FirstName,
+    string LastName,
     DateTime CreatedAt,
-    Dictionary<string, IEnumerable<string>> Claims);
+    Dictionary<string, IEnumerable<string>> Claims,
+    string UniqueNumber);

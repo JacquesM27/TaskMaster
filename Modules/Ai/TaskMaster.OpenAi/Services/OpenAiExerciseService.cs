@@ -24,8 +24,7 @@ internal sealed class OpenAiExerciseService : IOpenAiExerciseService
 
     public async Task<string> PromptForExercise(string prompt, string motherLanguage, string targetLanguage)
     {
-        var startMessage =
-            _promptFormatter.FormatStartingSystemMessage(motherLanguage, targetLanguage);
+        var startMessage = _promptFormatter.FormatStartingSystemMessage(motherLanguage, targetLanguage);
         
         // var schema = _objectSamplerService.GetStaticJsonSchema(typeof(TExercise));
         // var options = new ChatCompletionOptions
@@ -56,7 +55,7 @@ internal sealed class OpenAiExerciseService : IOpenAiExerciseService
             ChatMessage.CreateUserMessage(prompt)
         };
 
-        var schema = _objectSamplerService.GetSampleJson(typeof(SuspiciousPrompt));
+        // var schema = _objectSamplerService.GetSampleJson(typeof(SuspiciousPrompt));
         // var options = new ChatCompletionOptions();
         // options.ResponseFormat = ChatResponseFormat.CreateJsonSchemaFormat(
         //     jsonSchemaFormatName: $"{nameof(SuspiciousPrompt)}_schema",

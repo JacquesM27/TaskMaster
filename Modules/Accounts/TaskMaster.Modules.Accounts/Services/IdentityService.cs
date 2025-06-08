@@ -20,7 +20,7 @@ internal sealed class IdentityService(
         return user is null
             ? null
             : new UserDto(user.Id, user.Email, user.Role, user.Firstname, user.Lastname,
-                user.CreatedAt, user.Claims);
+                user.CreatedAt, user.Claims, user.UniqueNumber);
     }
 
     public async Task<Guid?> GetIdByEmailAsync(string email)

@@ -6,6 +6,7 @@ public interface ISchoolRepository
 {
     Task AddSchoolAsync(School school, CancellationToken cancellationToken);
     Task<School?> GetSchoolAsync(Guid id, CancellationToken cancellationToken);
+    Task UpdateSchoolAsync(School school, CancellationToken cancellationToken);
     
     Task AddSchoolAdminAsync(SchoolAdmin schoolAdmin, CancellationToken cancellationToken);
     Task<IEnumerable<SchoolAdmin>> GetSchoolAdminsAsync(Guid schoolId, CancellationToken cancellationToken);
