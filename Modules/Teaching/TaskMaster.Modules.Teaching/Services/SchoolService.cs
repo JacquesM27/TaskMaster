@@ -172,8 +172,19 @@ internal sealed class SchoolService(ISchoolRepository repo, IQueryDispatcher que
         return teachingClass.Id;
     }
 
-    public Task<TeachingClassDetailsDto?> GetTeachingClassAsync(Guid classId, CancellationToken cancellationToken)
+    public async Task<TeachingClassDetailsDto?> GetTeachingClassAsync(Guid classId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var teachingClass = await repo.GetTeachingClassAsync(classId, cancellationToken);
+
+        if (teachingClass is null)
+                    return null;
+        
+        return new TeachingClassDetailsDto
+        {
+            Id = teachingClass.Id,
+            Name = teachingClass.Name,
+            Level = teachingClass.Level,
+            Language = teachingClass.Language,
+        };
     }
 }
