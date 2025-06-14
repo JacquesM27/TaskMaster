@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Infra\TaskMaster.Models.Exercises\TaskMaster.Models.Exercises.csproj" />
+    </ItemGroup>
+
 </Project>

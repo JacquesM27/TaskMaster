@@ -2,10 +2,6 @@
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Schema;
-using TaskMaster.Models.Exercises.Base;
-using TaskMaster.Models.Exercises.OpenForm;
-using TaskMaster.OpenAi.OpenForm;
 
 namespace TaskMaster.OpenAi.Services;
 

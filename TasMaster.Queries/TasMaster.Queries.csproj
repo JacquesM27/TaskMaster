@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Infra\TaskMaster.Abstractions\TaskMaster.Abstractions.csproj" />
+      <ProjectReference Include="..\Infra\TaskMaster.Models.Exercises\TaskMaster.Models.Exercises.csproj" />
     </ItemGroup>
 
 </Project>
