@@ -5,4 +5,8 @@
       <ProjectReference Include="..\..\..\TasMaster.Queries\TasMaster.Queries.csproj" />
     </ItemGroup>
 
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="TaskMaster.Modules.Accounts.Tests.Unit" />
+    </ItemGroup>
 </Project>

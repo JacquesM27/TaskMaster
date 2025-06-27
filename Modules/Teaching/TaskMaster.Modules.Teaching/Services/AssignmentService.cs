@@ -20,7 +20,8 @@ internal sealed class AssignmentService(IAssignmentRepository assignmentReposito
             Description = newAssignment.Description,
             Exercises = newAssignment.Exercises.Select(exercise => new AssignmentExercise
             {
-                Id = exercise.Id,
+                Id = Guid.CreateVersion7(),
+                ExerciseId = exercise.ExerciseId,
                 ExerciseType = exercise.ExerciseType
             }).ToList()
         };
@@ -76,14 +77,51 @@ internal sealed class AssignmentService(IAssignmentRepository assignmentReposito
         return id;
     }
 
-    public Task<Guid> AddClassAssignmentWithoutAssignment(NewClassAssignmentWithoutAssignmentDto newClassAssignment,
+    public async Task<Guid> AddClassAssignmentWithoutAssignment(NewClassAssignmentWithoutAssignmentDto newClassAssignment,
         CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var newAssignmentId = Guid.CreateVersion7();
+        var newAssignment = new Assignment()
+        {
+            Id = newAssignmentId,
+            Description = newClassAssignment.Description,
+            Exercises = newClassAssignment.Exercises.Select(x => new AssignmentExercise()
+            {
+                Id = Guid.CreateVersion7(),
+                ExerciseId = x.ExerciseId,
+                ExerciseType = x.ExerciseType
+            })
+        };
+        await assignmentRepository.AddAssignmentAsync(newAssignment, cancellationToken);
+
+        var classAssignmentId = Guid.CreateVersion7();
+        var classAssignment = new ClassAssignment()
+        {
+            Id = classAssignmentId,
+            AssignmentId = newAssignmentId,
+            TeachingClassId = newClassAssignment.TeachingClassId,
+            Password = newClassAssignment.Password,
+            DueDate = newClassAssignment.DueDate,
+        };
+        await assignmentRepository.AddClassAssignmentAsync(classAssignment, cancellationToken);
+
+        return classAssignmentId;
     }
 
-    public Task<ClassAssignmentDetailsDto?> GetClassAssignmentDetails(Guid classAssignmentId, CancellationToken cancellationToken)
+    public async Task<ClassAssignmentDetailsDto?> GetClassAssignmentDetails(Guid classAssignmentId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var classAssignment = await assignmentRepository.GetClassAssignmentAsync(classAssignmentId, cancellationToken);
+        if (classAssignment is null)
+            return null;
+
+        var assignmentDetails = await GetAssignmentDetails(classAssignment.AssignmentId, cancellationToken);
+
+        var result = new ClassAssignmentDetailsDto
+        {
+            Id = classAssignment.Id,
+            DueDate = classAssignment.DueDate,
+            Assignment = assignmentDetails
+        };
+        return result;
     }
 }

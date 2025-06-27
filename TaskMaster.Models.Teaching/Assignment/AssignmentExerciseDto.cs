@@ -2,6 +2,6 @@
 
 public class AssignmentExerciseDto
 {
-    public Guid Id { get; set; }
+    public Guid ExerciseId { get; set; }
     public string ExerciseType { get; set; }
 }
