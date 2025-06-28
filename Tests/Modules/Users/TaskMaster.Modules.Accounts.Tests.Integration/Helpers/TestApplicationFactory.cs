@@ -16,8 +16,11 @@ public class TestApplicationFactory : WebApplicationFactory<Program>, IAsyncLife
         .WithDatabase("TaskMasterUsers")
         .WithUsername("postgres")
         .WithPassword("postgres")
+        .WithPortBinding(5432, 5432)
         .Build();
-    private readonly RedisContainer _redisContainer = new RedisBuilder().Build();
+    private readonly RedisContainer _redisContainer = new RedisBuilder()
+        .WithPortBinding(6379,6379)
+        .Build();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

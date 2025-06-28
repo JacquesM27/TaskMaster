@@ -13,9 +13,6 @@ internal sealed class CustomExceptionHandler(
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken
         cancellationToken)
     {
-        if (exception is not CustomException)
-            return false;
-
         logger.LogError(exception, "Error: {ErrorName}, description: {Message}, stack trace: {StackTrace}",
             exception.GetType().Name, exception.Message, exception.StackTrace);
 
@@ -27,12 +24,16 @@ internal sealed class CustomExceptionHandler(
             Detail = exception.Message,
             Type = exception.GetType().Name,Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}"
         };
+        
+        httpContext.Response.StatusCode = statusCode;
 
-        return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
+        var res =  await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {
             Exception = exception,
             HttpContext = httpContext,
             ProblemDetails = problemDetails,
         });
+
+        return res;
     }
 }
