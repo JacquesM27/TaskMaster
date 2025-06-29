@@ -81,7 +81,10 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
 
         var user = await response.Content.ReadFromJsonAsync<UserDto>();
         user.ShouldNotBeNull();
-        user.Email.ShouldBe("some.user@test.com");
+        user.Email.ShouldBe("user@taskmaster.com");
+        user.FirstName.ShouldBe("Ryan");
+        user.LastName.ShouldBe("Reynolds");
+        user.Role.ShouldBe("User");
     }
 
     [Fact]
@@ -285,7 +288,7 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         await SignIn(_admin);
         var signUpDto = new SignUpDto()
         {
-            Email = "some.user@test.com",
+            Email = "user@taskmaster.com",
             Firstname = "John",
             Lastname = "Doe",
             Password = "SuperStrongPassword123!"
@@ -296,8 +299,11 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
         error.ShouldNotBeNull();
+        error.Detail.ShouldBe("Email 'user@taskmaster.com' is already in use.");
+        error.Instance.ShouldBe("POST /account/sign-up-admin");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("EmailInUseException");
     }
 
     [Fact]
@@ -317,8 +323,11 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
         error.ShouldNotBeNull();
+        error.Detail.ShouldBe("Password must contain at least one uppercase letter.\nPassword must contain at least one digit.\nAll the requirements must be fulfilled.");
+        error.Instance.ShouldBe("POST /account/sign-up-admin");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("PasswordRequirementsException");
     }
 
     [Fact]
@@ -373,8 +382,11 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
         error.ShouldNotBeNull();
+        error.Detail.ShouldBe("Invalid credentials.");
+        error.Instance.ShouldBe("POST /account/change-password");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("InvalidCredentialsException");
     }
 
     [Fact]
@@ -392,9 +404,11 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
         error.ShouldNotBeNull();
+        error.Detail.ShouldBe("Password must be at least 8 characters long.\nPassword must contain at least one uppercase letter.\nPassword must contain at least one lowercase letter.\nPassword must contain at least one special character.\nAll the requirements must be fulfilled.");
+        error.Instance.ShouldBe("POST /account/change-password");        
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
-        //error.Message.ShouldBe("Password must be at least 8 characters long.\nPassword must contain at least one uppercase letter.\nPassword must contain at least one lowercase letter.\nPassword must contain at least one special character.\nAll the requirements must be fulfilled.");
+        error.Type.ShouldBe("PasswordRequirementsException");
     }
 
     [Fact]
@@ -430,8 +444,12 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         var response = await Client.PostAsJsonAsync("/account/forgot-password", dto);
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
+        error.ShouldNotBeNull();
+        error.Detail.ShouldBe("User with email: 'forgot.password1@taskmaster.com' was not found.");
+        error.Instance.ShouldBe("POST /account/forgot-password");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("UserNotFoundException");
     }
 
     [Fact]
@@ -445,8 +463,11 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         var response = await Client.PostAsJsonAsync("/account/reset-password", dto);
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
+        error.Detail.ShouldBe("Given reset token is invalid.");
+        error.Instance.ShouldBe("POST /account/reset-password");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("InvalidResetPasswordTokenException");
 
     }
 
@@ -525,8 +546,12 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         var response = await Client.PostAsync($"/account/ban/{userId}", null);
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
+        error.ShouldNotBeNull();
+        error.Detail.ShouldBe("User with id: '00000000000000000000000000000000' was not found.");
+        error.Instance.ShouldBe($"POST /account/ban/{userId}");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("UserNotFoundException");
     }
 
     [Fact]
@@ -571,8 +596,12 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         var response = await Client.PostAsync($"/account/unban/{userId}", null);
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
+        error.ShouldNotBeNull();
+        error.Detail.ShouldBe("User with id: '00000000000000000000000000000000' was not found.");
+        error.Instance.ShouldBe($"POST /account/unban/{userId}");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("UserNotFoundException");
     }
 
     [Fact]
@@ -614,8 +643,12 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         var response = await Client.PostAsJsonAsync("/account/refresh-token", dto);
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
+        error.ShouldNotBeNull();
+        error.Detail.ShouldBe("Invalid jwt token.");
+        error.Instance.ShouldBe("POST /account/refresh-token");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("InvalidJwtTokenException");
     }
 
     [Fact]
@@ -650,8 +683,12 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         var response = await Client.PostAsJsonAsync("/account/new-activation-token", dto);
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
+        error.ShouldNotBeNull();
+        error.Detail.ShouldBe("User with email: 'some.fake@taskmaster.com' was not found.");
+        error.Instance.ShouldBe("POST /account/new-activation-token");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("UserNotFoundException");
     }
 
     [Fact]
@@ -684,8 +721,12 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
         };
         var response = await Client.PostAsJsonAsync("/account/activate", dto);
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
+        error.ShouldNotBeNull();
+        error.Detail.ShouldBe("Given activation token is invalid.");
+        error.Instance.ShouldBe("POST /account/activate");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("InvalidActivationTokenException");
     }
 
     [Fact]
@@ -701,10 +742,13 @@ public class AccountControllerTests(TestApplicationFactory factory) : Integratio
             ActivationToken = "123token"
         };
         var response = await Client.PostAsJsonAsync("/account/activate", dto);
-        var err = await response.Content.ReadAsStringAsync();
         var error = (await response.Content.ReadFromJsonAsync<ProblemDetails>())!;
+        error.ShouldNotBeNull();
+        error.Detail.ShouldBe("Given activation token is expired.");
+        error.Instance.ShouldBe("POST /account/activate");
         error.Status.ShouldBe(400);
         error.Title.ShouldBe("Bad request");
+        error.Type.ShouldBe("ActivationTokenExpiredException");
     }
 
     [Fact]
