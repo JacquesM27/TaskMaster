@@ -1,5 +1,4 @@
 ﻿using TaskMaster.Abstractions.Queries;
-using TaskMaster.Models.Exercises.OpenForm;
 using TaskMaster.Models.Teaching.Assignment;
 using TaskMaster.Models.Teaching.School;
 using TaskMaster.Modules.Teaching.Entities;

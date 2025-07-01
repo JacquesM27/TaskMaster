@@ -8,4 +8,9 @@
     <ItemGroup>
         <PackageReference Include="OpenAI"/>
     </ItemGroup>
+    
+    <ItemGroup>
+        <InternalsVisibleTo Include="TaskMaster.OpenAi.Tests.Unit" />
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+    </ItemGroup>
 </Project>

@@ -28,7 +28,7 @@ internal sealed class PromptFormatter : IPromptFormatter
 
         if (!string.IsNullOrWhiteSpace(baseData.SupportMaterial))
             prompt +=
-                $"8. In the support material section know these support materials: {baseData.TopicsOfSentences}.\n";
+                $"8. In the support material section know these support materials: {baseData.SupportMaterial}.\n";
         else
             prompt +=
                 $"8. In the support material section, generate a short summary that will be useful to the student during the exercise. Don't point out the answer there, only give hints.\n";
