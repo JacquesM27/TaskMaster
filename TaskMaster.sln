@@ -31,13 +31,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{34
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Accounts", "Modules\Accounts\TaskMaster.Modules.Accounts\TaskMaster.Modules.Accounts.csproj", "{440BF1DB-320E-4179-89DA-CE32C6710EFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Accounts.Contracts", "Modules\Accounts\TaskMaster.Modules.Accounts.Contracts\TaskMaster.Modules.Accounts.Contracts.csproj", "{00000000-0000-0000-0000-000000000000}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exercises", "Exercises", "{120BCB4C-F021-4862-A339-EA4506D6EC1D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Exercises", "Modules\Exercises\TaskMaster.Modules.Exercises\TaskMaster.Modules.Exercises.csproj", "{50EB5346-E4FD-40E3-A80E-C80EE7C29A74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Exercises.Contracts", "Modules\Exercises\TaskMaster.Modules.Exercises.Contracts\TaskMaster.Modules.Exercises.Contracts.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Teaching", "Teaching", "{1355E916-CB3A-49BE-8489-47133B7B8DF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Teaching", "Modules\Teaching\TaskMaster.Modules.Teaching\TaskMaster.Modules.Teaching.csproj", "{B82640AF-87A2-463B-9FBD-C55F11204273}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Teaching.Contracts", "Modules\Teaching\TaskMaster.Modules.Teaching.Contracts\TaskMaster.Modules.Teaching.Contracts.csproj", "{00000000-0000-0000-0000-000000000000}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Models.Teaching", "TaskMaster.Models.Teaching\TaskMaster.Models.Teaching.csproj", "{CE46299B-22A7-4BEE-A752-6D143D66EC37}"
 EndProject
@@ -119,6 +125,12 @@ Global
 		{C4D5E6F7-A8B9-0C1D-2E3F-4A5B6C7D8E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4D5E6F7-A8B9-0C1D-2E3F-4A5B6C7D8E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4D5E6F7-A8B9-0C1D-2E3F-4A5B6C7D8E9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00000000-0000-0000-0000-000000000000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00000000-0000-0000-0000-000000000000}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,5 +156,9 @@ Global
 		{B2C3D4E5-F6A7-8B9C-0D1E-2F3A4B5C6D7E} = {9E5C6F3D-7A8B-4B4F-9C3D-4E5F6A7B8C9D}
 		{A3B4C5D6-E7F8-9A0B-1C2D-3E4F5A6B7C8D} = {8F4B5C2D-9E6F-4A3E-8B2C-3D4E5F6A7B8C}
 		{C4D5E6F7-A8B9-0C1D-2E3F-4A5B6C7D8E9F} = {A3B4C5D6-E7F8-9A0B-1C2D-3E4F5A6B7C8D}
+		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890} = {120BCB4C-F021-4862-A339-EA4506D6EC1D}
+		{B1C2D3E4-F5G6-7890-BCDE-FG1234567890} = {34F52B9D-F141-4B33-891D-32E0DA38E14A}
+		{C2D3E4F5-G6H7-8901-CDEF-GH1234567890} = {1355E916-CB3A-49BE-8489-47133B7B8DF1}
+		{00000000-0000-0000-0000-000000000000} = {1355E916-CB3A-49BE-8489-47133B7B8DF1}
 	EndGlobalSection
 EndGlobal

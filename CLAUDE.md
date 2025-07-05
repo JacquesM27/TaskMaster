@@ -149,3 +149,367 @@ docker-compose down
 - Separate test projects per module
 - Integration tests should use separate test database
 - Mock external services (OpenAI) in tests
+
+## Inter-Module Communication Refactoring Plan
+
+This section documents the comprehensive refactoring plan to enhance inter-module communication architecture, moving from basic CQRS to a robust hybrid approach with event sourcing, outbox pattern, and module clients.
+
+### Background & Problem Analysis
+
+**Current Issues Identified:**
+- TaskMaster.Modules.Exercises follows Transaction Script anti-pattern with repetitive CRUD operations
+- Limited inter-module communication patterns
+- No reliable event delivery mechanism
+- Missing anti-corruption layers for domain protection
+- Lack of proper module boundaries and contracts
+
+**Architectural Goals:**
+- Implement reliable inter-module communication
+- Add event sourcing and versioning capabilities
+- Create proper module contracts and boundaries
+- Enable complex workflow orchestration
+- Maintain loose coupling while improving reliability
+
+### Implementation Phases Overview
+
+#### Phase 1: Foundation - Enhanced Abstractions & Event Infrastructure ✅ COMPLETED
+**Timeline:** 1-2 weeks  
+**Status:** ✅ COMPLETED (Dec 2024)
+
+**Scope:**
+- Enhanced event abstractions (IDomainEvent, IIntegrationEvent, EventMetadata)
+- Module client base abstractions
+- Outbox pattern infrastructure for reliable messaging
+- Event store for persistence and replay
+- Integration event bus with reliability patterns
+
+**Key Deliverables:**
+- `TaskMaster.Abstractions/Events/` - Enhanced event interfaces
+- `TaskMaster.Abstractions/Modules/` - Module client base interface
+- `TaskMaster.Infrastructure/Events/` - Event store and integration bus
+- `TaskMaster.Infrastructure/Outbox/` - Outbox pattern implementation
+- Module contract projects for each domain
+
+**Files Created/Modified:**
+```
+Infra/TaskMaster.Abstractions/Events/
+├── IEvent.cs (enhanced with IDomainEvent, IIntegrationEvent)
+├── EventMetadata.cs
+├── IEventMigration.cs
+├── IEventStore.cs
+└── IIntegrationEventBus.cs
+
+Infra/TaskMaster.Abstractions/Modules/
+└── IModuleClient.cs
+
+Modules/*/TaskMaster.Modules.*.Contracts/
+├── Accounts/IAccountsModuleClient.cs + UserDto
+├── Exercises/IExercisesModuleClient.cs 
+└── Teaching/ITeachingModuleClient.cs + DTOs
+
+Infra/TaskMaster.Infrastructure/
+├── Events/EventStore.cs
+├── Events/IntegrationEventBus.cs
+├── Events/EventVersionManager.cs
+├── Outbox/OutboxRepository.cs
+├── Outbox/OutboxProcessingService.cs
+└── DAL/TaskMasterDbContext.cs (infrastructure tables)
+```
+
+#### Phase 2: Enhanced Event Architecture
+**Timeline:** 1 week  
+**Status:** 🔄 NEXT
+
+**Scope:**
+- Event store improvements and optimizations
+- Event versioning and migration system
+- Enhanced event processing with retries and dead letter queues
+- Event replay capabilities for debugging
+
+**Key Tasks:**
+1. **Event Store Enhancements**
+   - Add event snapshots for performance
+   - Implement event archiving strategies
+   - Add event replay functionality
+   - Create event analytics and monitoring
+
+2. **Event Migration System**
+   - Implement event version migration pipeline
+   - Add automated migration validation
+   - Create migration rollback capabilities
+   - Add event schema validation
+
+**Files to Create/Modify:**
+```
+Infra/TaskMaster.Infrastructure/Events/
+├── EventSnapshot.cs
+├── EventMigrationPipeline.cs
+├── EventReplayService.cs
+└── EventAnalyticsService.cs
+```
+
+#### Phase 3: Domain Events & Integration Events
+**Timeline:** 1 week  
+**Status:** ⏳ PENDING
+
+**Scope:**
+- Define comprehensive domain events for each module
+- Create integration events for cross-module workflows
+- Implement event handlers with proper error handling
+- Add event-driven workflow orchestration
+
+**Key Events to Implement:**
+
+**Exercises Module:**
+```csharp
+// Domain Events
+ExerciseCreated, ExerciseVerified, ExerciseUpdated
+
+// Integration Events  
+ExerciseReadyForAssignment, ExerciseAssignedToClass
+```
+
+**Teaching Module:**
+```csharp
+// Domain Events
+AssignmentCreated, AssignmentDueDateChanged, StudentSubmissionReceived
+
+// Integration Events
+AssignmentPublished, ClassAssignmentCompleted
+```
+
+**Accounts Module:**
+```csharp
+// Domain Events
+UserRegistered, UserActivated, PermissionsChanged
+
+// Integration Events
+TeacherAssignedToSchool, StudentEnrolledInClass
+```
+
+#### Phase 4: Module Client Implementation
+**Timeline:** 2 weeks  
+**Status:** ⏳ PENDING
+
+**Scope:**
+- Implement concrete module clients
+- Add anti-corruption layers for domain protection
+- Create client-side caching and resilience patterns
+- Add cross-module query optimization
+
+**Implementation Strategy:**
+
+**1. Exercises Module Client:**
+```csharp
+// In Exercises module
+public sealed class ExercisesModuleClient : IExercisesModuleClient
+{
+    private readonly IQueryDispatcher _queryDispatcher;
+    private readonly ICacheStorage _cache;
+    
+    public async Task<MailDto?> GetMailExerciseAsync(Guid exerciseId, CancellationToken cancellationToken)
+    {
+        // Cache-first approach with fallback to query dispatcher
+        var cacheKey = $"exercise:mail:{exerciseId}";
+        var cached = await _cache.GetAsync<MailDto>(cacheKey, cancellationToken);
+        if (cached != null) return cached;
+        
+        var result = await _queryDispatcher.QueryAsync(new MailExerciseByIdQuery(exerciseId, cancellationToken));
+        if (result != null)
+        {
+            await _cache.SetAsync(cacheKey, result, TimeSpan.FromMinutes(10), cancellationToken);
+        }
+        return result;
+    }
+}
+```
+
+**2. Anti-Corruption Layers:**
+```csharp
+// In Teaching module
+public sealed class ExerciseDataAdapter
+{
+    public AssignmentExercise ToAssignmentExercise(MailDto externalDto)
+    {
+        // Validate and transform external data to domain model
+        var exerciseId = ExerciseId.From(externalDto.Id);
+        var exerciseType = ExerciseType.Mail;
+        
+        return new AssignmentExercise(exerciseId, exerciseType, externalDto.VerifiedByTeacher);
+    }
+}
+```
+
+#### Phase 5: Feature Slices Implementation  
+**Timeline:** 2-3 weeks  
+**Status:** ⏳ PENDING
+
+**Scope:**
+- Refactor Exercises module to vertical slice architecture
+- Eliminate code duplication across exercise types
+- Implement feature-based organization
+- Add comprehensive validation and business rules
+
+**Target Structure:**
+```
+Modules/Exercises/Features/
+├── GetExercise/
+│   ├── GetExerciseQuery.cs
+│   ├── GetExerciseHandler.cs
+│   └── GetExerciseValidator.cs
+├── CreateExercise/
+│   ├── CreateExerciseCommand.cs
+│   ├── CreateExerciseHandler.cs
+│   └── CreateExerciseValidator.cs
+├── VerifyExercise/
+│   ├── VerifyExerciseCommand.cs
+│   └── VerifyExerciseHandler.cs
+└── Common/
+    ├── ExerciseMappers.cs
+    └── ExerciseValidators.cs
+```
+
+**Benefits:**
+- Eliminates 80% of code duplication in current service layer
+- Improves maintainability and testability
+- Makes adding new exercise types trivial
+- Enables feature-specific optimizations
+
+#### Phase 6: Cross-Module Integration & Orchestration
+**Timeline:** 1-2 weeks  
+**Status:** ⏳ PENDING
+
+**Scope:**
+- Implement complex workflow orchestration
+- Add saga pattern for long-running processes
+- Create module orchestrator for complex operations
+- Add comprehensive monitoring and observability
+
+**Key Implementations:**
+
+**1. Assignment Creation Saga:**
+```csharp
+public sealed class CreateAssignmentSaga : ISaga
+{
+    public async Task HandleAsync(AssignmentCreated @event)
+    {
+        // Step 1: Validate exercises exist and are verified
+        var exercises = await _exercisesClient.GetExercisesForAssignmentAsync(@event.AssignmentId);
+        var unverifiedExercises = exercises.Where(e => !e.VerifiedByTeacher).ToList();
+        
+        if (unverifiedExercises.Any())
+        {
+            await _eventBus.PublishAsync(new AssignmentCreationBlocked(@event.AssignmentId, "Unverified exercises"));
+            return;
+        }
+        
+        // Step 2: Create class assignments for all classes
+        await _teachingClient.CreateClassAssignmentsAsync(@event.AssignmentId, exercises);
+        
+        // Step 3: Notify students and teachers
+        await _notificationService.NotifyAssignmentCreatedAsync(@event.AssignmentId);
+        
+        // Step 4: Schedule due date reminders
+        await _schedulerService.ScheduleReminderAsync(@event.AssignmentId, @event.DueDate);
+    }
+}
+```
+
+**2. Module Orchestrator:**
+```csharp
+public sealed class TeachingWorkflowOrchestrator
+{
+    public async Task<AssignmentWithMetadataDto> CreateCompleteAssignmentAsync(CreateAssignmentRequest request)
+    {
+        // Validate teacher permissions
+        var teacher = await _accountsClient.GetUserAsync(request.CreatedBy);
+        var hasPermission = await _accountsClient.IsUserTeacherInSchoolAsync(teacher.Id, request.SchoolId);
+        
+        if (!hasPermission) throw new UnauthorizedAccessException();
+        
+        // Get and validate exercises
+        var exercises = await _exercisesClient.GetExercisesForClassLevelAsync(request.ClassLevel);
+        var validatedExercises = exercises.Where(e => e.VerifiedByTeacher).ToList();
+        
+        // Create assignment with transaction
+        using var transaction = await _unitOfWork.BeginTransactionAsync();
+        try
+        {
+            var assignment = await _teachingClient.CreateAssignmentAsync(request);
+            await _teachingClient.AttachExercisesToAssignmentAsync(assignment.Id, validatedExercises);
+            
+            await transaction.CommitAsync();
+            
+            // Trigger async workflows
+            await _eventBus.PublishAsync(new AssignmentCreated(assignment.Id, request.CreatedBy, request.Title, request.DueDate));
+            
+            return new AssignmentWithMetadataDto(assignment, validatedExercises, teacher);
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+}
+```
+
+### Implementation Guidelines
+
+#### Event Naming Conventions
+- **Domain Events**: Past tense, module-specific (e.g., `ExerciseCreated`, `UserActivated`)
+- **Integration Events**: Past tense, cross-module (e.g., `ExerciseReadyForAssignment`)
+- **Commands**: Imperative (e.g., `CreateExercise`, `VerifyExercise`)
+- **Queries**: Descriptive (e.g., `GetExerciseById`, `GetAssignmentsForUser`)
+
+#### Error Handling Strategy
+- **Transient Errors**: Automatic retry with exponential backoff
+- **Business Errors**: Immediate failure with descriptive messages
+- **Integration Errors**: Circuit breaker pattern with fallback strategies
+- **Data Errors**: Validation at module boundaries with clear error responses
+
+#### Testing Strategy
+- **Unit Tests**: Each feature slice has comprehensive unit tests
+- **Integration Tests**: Cross-module communication testing
+- **Contract Tests**: Module client interface validation
+- **End-to-End Tests**: Complete workflow testing including saga patterns
+
+#### Performance Considerations
+- **Caching**: Module clients implement intelligent caching
+- **Batching**: Event processing supports batch operations
+- **Async Processing**: All cross-module operations are asynchronous
+- **Connection Pooling**: Optimize database connections across modules
+
+#### Monitoring & Observability
+- **Event Tracing**: All events include correlation IDs
+- **Performance Metrics**: Track cross-module call latencies
+- **Business Metrics**: Monitor saga completion rates and error rates
+- **Health Checks**: Module client health monitoring
+
+### Migration Strategy
+
+1. **Backward Compatibility**: Maintain existing APIs during transition
+2. **Incremental Rollout**: Implement features module by module
+3. **Feature Flags**: Use feature toggles for gradual activation
+4. **Rollback Plans**: Maintain ability to revert to previous patterns
+5. **Data Migration**: Plan for event store and outbox table creation
+
+### Success Criteria
+
+**Technical Metrics:**
+- 99.9% event delivery reliability
+- < 100ms average cross-module call latency
+- < 5 minutes saga completion time
+- Zero data loss during deployments
+
+**Business Metrics:**
+- Reduced development time for new features
+- Improved system observability and debugging
+- Enhanced scalability for future growth
+- Better separation of concerns across domains
+
+**Code Quality Metrics:**
+- 80% reduction in code duplication (Exercises module)
+- 90%+ test coverage for all new components
+- Clear module boundaries with no circular dependencies
+- Comprehensive documentation and architectural guidelines
