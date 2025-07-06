@@ -154,6 +154,8 @@ docker-compose down
 
 This section documents the comprehensive refactoring plan to enhance inter-module communication architecture, moving from basic CQRS to a robust hybrid approach with event sourcing, outbox pattern, and module clients.
 
+⚠️ **CRITICAL REQUIREMENT**: The project MUST compile successfully after each phase completion. No phase should be considered complete if the build fails. Each phase should be implemented incrementally with working intermediate states.
+
 ### Background & Problem Analysis
 
 **Current Issues Identified:**
@@ -174,21 +176,28 @@ This section documents the comprehensive refactoring plan to enhance inter-modul
 
 #### Phase 1: Foundation - Enhanced Abstractions & Event Infrastructure ✅ COMPLETED
 **Timeline:** 1-2 weeks  
-**Status:** ✅ COMPLETED (Dec 2024)
+**Status:** ✅ COMPLETED (Dec 2024)  
+**Build Status:** ✅ COMPILES SUCCESSFULLY
 
 **Scope:**
 - Enhanced event abstractions (IDomainEvent, IIntegrationEvent, EventMetadata)
 - Module client base abstractions
 - Outbox pattern infrastructure for reliable messaging
-- Event store for persistence and replay
+- Separated event stores for domain and integration events
 - Integration event bus with reliability patterns
+- Module contract projects for proper boundaries
 
 **Key Deliverables:**
 - `TaskMaster.Abstractions/Events/` - Enhanced event interfaces
 - `TaskMaster.Abstractions/Modules/` - Module client base interface
-- `TaskMaster.Infrastructure/Events/` - Event store and integration bus
+- `TaskMaster.Infrastructure/Events/` - Separated event stores and integration bus
 - `TaskMaster.Infrastructure/Outbox/` - Outbox pattern implementation
 - Module contract projects for each domain
+
+**Architecture Fix Applied:**
+🐛 **Critical Bug Fixed**: Resolved impossible type check in original EventStore where `@event is IDomainEvent` was checked on `IIntegrationEvent` constrained generic. Split into separate stores:
+- `IDomainEventStore` for event sourcing within aggregates
+- `IIntegrationEventStore` for cross-module communication
 
 **Files Created/Modified:**
 ```
@@ -196,7 +205,7 @@ Infra/TaskMaster.Abstractions/Events/
 ├── IEvent.cs (enhanced with IDomainEvent, IIntegrationEvent)
 ├── EventMetadata.cs
 ├── IEventMigration.cs
-├── IEventStore.cs
+├── IEventStore.cs (split into IDomainEventStore + IIntegrationEventStore)
 └── IIntegrationEventBus.cs
 
 Infra/TaskMaster.Abstractions/Modules/
@@ -208,17 +217,25 @@ Modules/*/TaskMaster.Modules.*.Contracts/
 └── Teaching/ITeachingModuleClient.cs + DTOs
 
 Infra/TaskMaster.Infrastructure/
-├── Events/EventStore.cs
+├── Events/EventStore.cs (split into DomainEventStore + IntegrationEventStore)
 ├── Events/IntegrationEventBus.cs
 ├── Events/EventVersionManager.cs
 ├── Outbox/OutboxRepository.cs
 ├── Outbox/OutboxProcessingService.cs
-└── DAL/TaskMasterDbContext.cs (infrastructure tables)
+└── DAL/TaskMasterDbContext.cs (separate tables: DomainEvents, IntegrationEvents, OutboxMessages)
 ```
+
+**Verification Steps:**
+1. ✅ All contract projects compile independently
+2. ✅ Infrastructure project compiles with separated event stores
+3. ✅ Proper type safety - no impossible type checks
+4. ✅ Database context includes separate tables for different event types
+5. ✅ Service registration correctly maps interfaces to implementations
 
 #### Phase 2: Enhanced Event Architecture
 **Timeline:** 1 week  
-**Status:** 🔄 NEXT
+**Status:** 🔄 NEXT  
+**Build Requirement:** ✅ MUST COMPILE AFTER COMPLETION
 
 **Scope:**
 - Event store improvements and optimizations
@@ -226,18 +243,25 @@ Infra/TaskMaster.Infrastructure/
 - Enhanced event processing with retries and dead letter queues
 - Event replay capabilities for debugging
 
-**Key Tasks:**
-1. **Event Store Enhancements**
-   - Add event snapshots for performance
-   - Implement event archiving strategies
-   - Add event replay functionality
-   - Create event analytics and monitoring
+**Implementation Strategy:**
+⚠️ **Incremental Development**: Each sub-task must maintain compilation state
+1. Add features one at a time
+2. Test compilation after each addition
+3. Ensure backward compatibility during transition
+4. Use feature flags if necessary for gradual rollout
 
-2. **Event Migration System**
-   - Implement event version migration pipeline
-   - Add automated migration validation
-   - Create migration rollback capabilities
-   - Add event schema validation
+**Key Tasks:**
+1. **Event Store Enhancements** (Incremental)
+   - Add event snapshots for performance (compile test required)
+   - Implement event archiving strategies (compile test required)
+   - Add event replay functionality (compile test required)
+   - Create event analytics and monitoring (compile test required)
+
+2. **Event Migration System** (Incremental)
+   - Implement event version migration pipeline (compile test required)
+   - Add automated migration validation (compile test required)
+   - Create migration rollback capabilities (compile test required)
+   - Add event schema validation (compile test required)
 
 **Files to Create/Modify:**
 ```
@@ -248,15 +272,32 @@ Infra/TaskMaster.Infrastructure/Events/
 └── EventAnalyticsService.cs
 ```
 
+**Verification Requirements:**
+- [ ] Each new file compiles independently
+- [ ] Integration with existing event stores works
+- [ ] No breaking changes to existing interfaces
+- [ ] All unit tests pass after each addition
+- [ ] Full solution builds successfully
+
 #### Phase 3: Domain Events & Integration Events
 **Timeline:** 1 week  
-**Status:** ⏳ PENDING
+**Status:** ⏳ PENDING  
+**Build Requirement:** ✅ MUST COMPILE AFTER COMPLETION
 
 **Scope:**
 - Define comprehensive domain events for each module
 - Create integration events for cross-module workflows
 - Implement event handlers with proper error handling
 - Add event-driven workflow orchestration
+
+**Implementation Strategy:**
+⚠️ **Module-by-Module Approach**: Implement events incrementally by module
+1. Start with one module (e.g., Exercises)
+2. Add domain events first, test compilation
+3. Add integration events, test compilation
+4. Add event handlers, test compilation
+5. Repeat for next module
+6. Test cross-module integration at the end
 
 **Key Events to Implement:**
 
@@ -289,13 +330,25 @@ TeacherAssignedToSchool, StudentEnrolledInClass
 
 #### Phase 4: Module Client Implementation
 **Timeline:** 2 weeks  
-**Status:** ⏳ PENDING
+**Status:** ⏳ PENDING  
+**Build Requirement:** ✅ MUST COMPILE AFTER COMPLETION
 
 **Scope:**
 - Implement concrete module clients
 - Add anti-corruption layers for domain protection
 - Create client-side caching and resilience patterns
 - Add cross-module query optimization
+
+**Implementation Strategy:**
+⚠️ **Contract-First Development**: Ensure compilation at each step
+1. Implement one module client at a time
+2. Start with simplest client (e.g., Accounts)
+3. Add basic implementation, test compilation
+4. Add caching layer, test compilation
+5. Add anti-corruption layer, test compilation
+6. Add resilience patterns, test compilation
+7. Integration test with actual module
+8. Repeat for next module client
 
 **Implementation Strategy:**
 
@@ -342,13 +395,24 @@ public sealed class ExerciseDataAdapter
 
 #### Phase 5: Feature Slices Implementation  
 **Timeline:** 2-3 weeks  
-**Status:** ⏳ PENDING
+**Status:** ⏳ PENDING  
+**Build Requirement:** ✅ MUST COMPILE AFTER COMPLETION
 
 **Scope:**
 - Refactor Exercises module to vertical slice architecture
 - Eliminate code duplication across exercise types
 - Implement feature-based organization
 - Add comprehensive validation and business rules
+
+**Implementation Strategy:**
+⚠️ **Parallel Development**: Run old and new implementations side-by-side
+1. Create new feature slice structure alongside existing code
+2. Implement one feature slice, test compilation
+3. Add feature flag to switch between old/new implementation
+4. Test new implementation thoroughly
+5. Migrate one endpoint at a time
+6. Remove old implementation once all tests pass
+7. Ensure no breaking changes to external contracts
 
 **Target Structure:**
 ```
@@ -377,13 +441,25 @@ Modules/Exercises/Features/
 
 #### Phase 6: Cross-Module Integration & Orchestration
 **Timeline:** 1-2 weeks  
-**Status:** ⏳ PENDING
+**Status:** ⏳ PENDING  
+**Build Requirement:** ✅ MUST COMPILE AFTER COMPLETION
 
 **Scope:**
 - Implement complex workflow orchestration
 - Add saga pattern for long-running processes
 - Create module orchestrator for complex operations
 - Add comprehensive monitoring and observability
+
+**Implementation Strategy:**
+⚠️ **Conservative Integration**: Test extensively before deployment
+1. Implement saga infrastructure first, test compilation
+2. Add simple saga (single workflow), test compilation
+3. Add orchestrator infrastructure, test compilation
+4. Add one complex workflow, test compilation
+5. Add monitoring and health checks, test compilation
+6. Add comprehensive error handling and retries
+7. Full integration testing across all modules
+8. Performance testing under load
 
 **Key Implementations:**
 
@@ -453,6 +529,52 @@ public sealed class TeachingWorkflowOrchestrator
     }
 }
 ```
+
+### Compilation Requirements & Verification
+
+**Mandatory Build Verification After Each Phase:**
+
+1. **Individual Project Compilation**
+   ```bash
+   # Test each modified project individually
+   dotnet build Infra/TaskMaster.Abstractions/TaskMaster.Abstractions.csproj
+   dotnet build Infra/TaskMaster.Infrastructure/TaskMaster.Infrastructure.csproj
+   dotnet build Modules/Exercises/TaskMaster.Modules.Exercises/TaskMaster.Modules.Exercises.csproj
+   # ... for each modified project
+   ```
+
+2. **Full Solution Compilation**
+   ```bash
+   # Test entire solution
+   dotnet build TaskMaster.sln
+   ```
+
+3. **Contract Project Verification**
+   ```bash
+   # Test all contract projects compile independently
+   dotnet build Modules/Exercises/TaskMaster.Modules.Exercises.Contracts/
+   dotnet build Modules/Accounts/TaskMaster.Modules.Accounts.Contracts/
+   dotnet build Modules/Teaching/TaskMaster.Modules.Teaching.Contracts/
+   ```
+
+4. **Test Project Compilation**
+   ```bash
+   # Verify test projects still compile
+   dotnet build Tests/Modules/Users/TaskMaster.Modules.Accounts.Tests.Unit/
+   # Note: Some test projects may have package versioning issues - acceptable if main projects compile
+   ```
+
+**Rollback Policy:**
+- If any phase results in compilation failure, immediately rollback changes
+- Fix compilation issues before proceeding to next sub-task
+- Never commit code that doesn't compile
+- Use feature branches for experimental changes
+
+**Integration Testing Requirements:**
+- After each phase completion, run integration tests
+- Verify existing functionality still works
+- Test new features in isolation
+- Validate cross-module communication patterns
 
 ### Implementation Guidelines
 
