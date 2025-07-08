@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using TaskMaster.Abstractions.Events;
 using TaskMaster.Abstractions.Queries;
+using TaskMaster.Abstractions.Serialization;
 using TaskMaster.Events.Exercises.OpenForm;
 using TaskMaster.Events.SupiciousPrompts;
 using TaskMaster.Models.Exercises.Base;
@@ -16,7 +17,8 @@ internal sealed class SummaryOfTextQueryHandler(
     IPromptFormatter promptFormatter,
     IObjectSamplerService objectSamplerService,
     IOpenAiExerciseService openAiExerciseService,
-    IEventDispatcher eventDispatcher) : IQueryHandler<SummaryOfTextQuery, SummaryOfTextResponseOpenForm>
+    IEventDispatcher eventDispatcher,
+    ICustomSerializer customSerializer) : IQueryHandler<SummaryOfTextQuery, SummaryOfTextResponseOpenForm>
 {
     public async Task<SummaryOfTextResponseOpenForm> HandleAsync(SummaryOfTextQuery query)
     {
@@ -40,7 +42,7 @@ internal sealed class SummaryOfTextQueryHandler(
          var response =
              await openAiExerciseService.PromptForExercise(prompt, query.MotherLanguage, query.TargetLanguage);
 
-         var exercise = JsonSerializer.Deserialize<SummaryOfText>(response)
+         var exercise = customSerializer.TryDeserialize<SummaryOfText>(response)
                         ?? throw new DeserializationException(response);
 
          var result = new SummaryOfTextResponseOpenForm()

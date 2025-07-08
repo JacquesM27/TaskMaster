@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using TaskMaster.Abstractions.Events;
 using TaskMaster.Abstractions.Queries;
+using TaskMaster.Abstractions.Serialization;
 using TaskMaster.Events.Exercises.OpenForm;
 using TaskMaster.Events.SupiciousPrompts;
 using TaskMaster.Models.Exercises.Base;
@@ -19,7 +20,8 @@ internal sealed class EssayQueryHandler(
     IPromptFormatter promptFormatter,
     IObjectSamplerService objectSamplerService,
     IOpenAiExerciseService openAiExerciseService,
-    IEventDispatcher eventDispatcher)
+    IEventDispatcher eventDispatcher,
+    ICustomSerializer customSerializer)
     : IQueryHandler<EssayQuery, EssayResponseOpenForm>
 {
     public async Task<EssayResponseOpenForm> HandleAsync(EssayQuery query)
@@ -46,7 +48,7 @@ internal sealed class EssayQueryHandler(
         var response =
             await openAiExerciseService.PromptForExercise(prompt, query.MotherLanguage, query.TargetLanguage);
 
-        var exercise = JsonSerializer.Deserialize<Essay>(response)
+        var exercise = customSerializer.TryDeserialize<Essay>(response)
                        ?? throw new DeserializationException(response);
 
         var result = new EssayResponseOpenForm()

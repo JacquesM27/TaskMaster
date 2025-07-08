@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using TaskMaster.Abstractions.Events;
 using TaskMaster.Abstractions.Queries;
+using TaskMaster.Abstractions.Serialization;
 using TaskMaster.Events.Exercises.OpenForm;
 using TaskMaster.Events.SupiciousPrompts;
 using TaskMaster.Models.Exercises.Base;
@@ -19,8 +20,8 @@ internal sealed class MailQueryHandler(
     IPromptFormatter promptFormatter,
     IObjectSamplerService objectSamplerService,
     IOpenAiExerciseService openAiExerciseService,
-    IEventDispatcher eventDispatcher
-    ) : IQueryHandler<MailQuery, MailResponseOpenForm>
+    IEventDispatcher eventDispatcher,
+    ICustomSerializer customSerializer) : IQueryHandler<MailQuery, MailResponseOpenForm>
 {
     public async Task<MailResponseOpenForm> HandleAsync(MailQuery query)
     {
@@ -47,7 +48,7 @@ internal sealed class MailQueryHandler(
         var response =
             await openAiExerciseService.PromptForExercise(prompt, query.MotherLanguage, query.TargetLanguage);
 
-        var exercise = JsonSerializer.Deserialize<Mail>(response)
+        var exercise = customSerializer.TryDeserialize<Mail>(response)
                        ?? throw new DeserializationException(response);
 
         var result = new MailResponseOpenForm()

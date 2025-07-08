@@ -19,6 +19,8 @@ using TaskMaster.Infrastructure.DAL;
 using TaskMaster.Abstractions.Outbox;
 using TaskMaster.Abstractions.Events;
 using Microsoft.EntityFrameworkCore;
+using TaskMaster.Abstractions.Serialization;
+using TaskMaster.Infrastructure.Serialization;
 
 namespace TaskMaster.Infrastructure;
 
@@ -48,6 +50,8 @@ public static class Extensions
         services.AddEventStore();
         services.AddIntegrationEvents();
 
+        services.AddTransient<ICustomSerializer, CustomSerializer>();
+        
         return services;
     }
 
