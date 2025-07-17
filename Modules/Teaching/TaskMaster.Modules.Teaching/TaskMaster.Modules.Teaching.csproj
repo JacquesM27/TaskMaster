@@ -1,9 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" >
 
     <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>TaskMaster.Modules.Teaching.Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\..\..\Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj" />
         <ProjectReference Include="..\..\..\TaskMaster.Models.Teaching\TaskMaster.Models.Teaching.csproj" />
         <ProjectReference Include="..\..\..\TasMaster.Queries\TasMaster.Queries.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <InternalsVisibleTo Include="TaskMaster.Modules.Teaching.Tests.Unit" />
     </ItemGroup>
     
 </Project>

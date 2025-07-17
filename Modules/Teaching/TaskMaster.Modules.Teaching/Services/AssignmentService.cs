@@ -35,13 +35,13 @@ internal sealed class AssignmentService(IAssignmentRepository assignmentReposito
             return null;
         var mailTasks = assignment.Exercises
             .Where(t => t.ExerciseType == "Mail")
-            .Select(t => queryDispatcher.QueryAsync(new MailExerciseByIdQuery(t.Id, cancellationToken)));
+            .Select(t => queryDispatcher.QueryAsync(new MailExerciseByIdQuery(t.ExerciseId, cancellationToken)));
         var essayTasks = assignment.Exercises
             .Where(t => t.ExerciseType == "Essay")
-            .Select(t => queryDispatcher.QueryAsync(new EssayExerciseByIdQuery(t.Id, cancellationToken)));
+            .Select(t => queryDispatcher.QueryAsync(new EssayExerciseByIdQuery(t.ExerciseId, cancellationToken)));
         var summaryTasks = assignment.Exercises
             .Where(t => t.ExerciseType == "Summary")
-            .Select(t => queryDispatcher.QueryAsync(new SummaryOfTextExerciseByIdQuery(t.Id, cancellationToken)));
+            .Select(t => queryDispatcher.QueryAsync(new SummaryOfTextExerciseByIdQuery(t.ExerciseId, cancellationToken)));
         
         var mailResults = Task.WhenAll(mailTasks);
         var essayResults = Task.WhenAll(essayTasks);

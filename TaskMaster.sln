@@ -63,6 +63,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ai", "Ai", "{A3B4C5D6-E7F8-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.OpenAi.Tests.Unit", "Tests\Modules\Ai\TaskMaster.OpenAi.Tests.Unit\TaskMaster.OpenAi.Tests.Unit.csproj", "{C4D5E6F7-A8B9-0C1D-2E3F-4A5B6C7D8E9F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Teaching", "Teaching", "{EF9F8BBB-C131-4CD6-A0B9-8F861429C01E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Modules.Teaching.Tests.Unit", "Tests\Modules\Teaching\TaskMaster.Modules.Teaching.Tests.Unit\TaskMaster.Modules.Teaching.Tests.Unit.csproj", "{491D9502-9332-4DC0-A349-325B941FF9CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +141,10 @@ Global
 		{C4D5E6F7-A8B9-0C1D-2E3F-4A5B6C7D8E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4D5E6F7-A8B9-0C1D-2E3F-4A5B6C7D8E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4D5E6F7-A8B9-0C1D-2E3F-4A5B6C7D8E9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{491D9502-9332-4DC0-A349-325B941FF9CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{491D9502-9332-4DC0-A349-325B941FF9CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{491D9502-9332-4DC0-A349-325B941FF9CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{491D9502-9332-4DC0-A349-325B941FF9CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,5 +173,7 @@ Global
 		{B2C3D4E5-F6A7-8B9C-0D1E-2F3A4B5C6D7E} = {9E5C6F3D-7A8B-4B4F-9C3D-4E5F6A7B8C9D}
 		{A3B4C5D6-E7F8-9A0B-1C2D-3E4F5A6B7C8D} = {8F4B5C2D-9E6F-4A3E-8B2C-3D4E5F6A7B8C}
 		{C4D5E6F7-A8B9-0C1D-2E3F-4A5B6C7D8E9F} = {A3B4C5D6-E7F8-9A0B-1C2D-3E4F5A6B7C8D}
+		{EF9F8BBB-C131-4CD6-A0B9-8F861429C01E} = {8F4B5C2D-9E6F-4A3E-8B2C-3D4E5F6A7B8C}
+		{491D9502-9332-4DC0-A349-325B941FF9CA} = {EF9F8BBB-C131-4CD6-A0B9-8F861429C01E}
 	EndGlobalSection
 EndGlobal
