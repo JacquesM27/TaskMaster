@@ -1,10 +1,10 @@
-﻿using TaskMaster.Models.Exercises.Base;
+﻿using TaskMaster.Models.Exercises.Requests;
 
 namespace TaskMaster.OpenAi.Services;
 
 internal sealed class PromptFormatter : IPromptFormatter
 {
-    public string FormatExerciseBaseData(ExerciseQueryBase baseData)
+    public string FormatExerciseBaseData(ExerciseRequestBase baseData)
     {
         var prompt =
             $"2. The mother's language of the student solving the exercise is {baseData.MotherLanguage}.\n" +

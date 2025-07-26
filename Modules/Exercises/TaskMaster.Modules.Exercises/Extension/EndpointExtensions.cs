@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Routing;
 using TaskMaster.Abstractions.Queries;
 using TaskMaster.Models.Exercises.Base;
 
-namespace TaskMaster.OpenAi.Extensions;
+namespace TaskMaster.Modules.Exercises.Extension;
 
 internal static class EndpointExtensions
 {

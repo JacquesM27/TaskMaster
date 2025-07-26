@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
+using TaskMaster.Bootstrapper;
 using Testcontainers.PostgreSql;
 using Testcontainers.Redis;
 

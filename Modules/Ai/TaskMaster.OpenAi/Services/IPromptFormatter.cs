@@ -1,10 +1,10 @@
-﻿using TaskMaster.Models.Exercises.Base;
+﻿using TaskMaster.Models.Exercises.Requests;
 
 namespace TaskMaster.OpenAi.Services;
 
-internal interface IPromptFormatter
+public interface IPromptFormatter
 {
-    string FormatExerciseBaseData(ExerciseQueryBase baseData);
+    string FormatExerciseBaseData(ExerciseRequestBase baseData);
     string FormatStartingSystemMessage(string motherLanguage, string targetLanguage);
 
     string FormatValidationSystemMessage();

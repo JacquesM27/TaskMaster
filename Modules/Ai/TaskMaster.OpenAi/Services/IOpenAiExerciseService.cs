@@ -1,11 +1,6 @@
-﻿
-using TaskMaster.Models.Exercises.Base;
+﻿namespace TaskMaster.OpenAi.Services;
 
-namespace TaskMaster.OpenAi.Services;
-
-internal interface IOpenAiExerciseService
+public interface IOpenAiExerciseService
 {
-    Task<string> PromptForExercise(string prompt, string motherLanguage, string targetLanguage);
-
-    Task<SuspiciousPrompt> ValidateAvoidingOriginTopic(string prompt);
+    Task<string> CompleteChatAsync(string startMessage, string prompt);
 }

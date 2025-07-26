@@ -1,6 +1,4 @@
-﻿using TaskMaster.Models.Teaching.Assignment;
-
-namespace TaskMaster.Models.Teaching.School;
+﻿namespace TaskMaster.Models.Teaching.Assignment;
 
 public class NewClassAssignmentWithoutAssignmentDto
 {

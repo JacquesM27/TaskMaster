@@ -219,7 +219,7 @@ public sealed class MailQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Mail)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(invalidJsonResponse);
         _customSerializer.TryDeserialize<Mail>(invalidJsonResponse).Returns((Mail?)null);
 
@@ -254,7 +254,7 @@ public sealed class MailQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Mail)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(validJsonResponse);
         _customSerializer.TryDeserialize<Mail>(validJsonResponse).Returns((Mail?)null);
 
@@ -279,7 +279,7 @@ public sealed class MailQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Mail)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(emptyJsonResponse);
         _customSerializer.TryDeserialize<Mail>(emptyJsonResponse).Returns((Mail?)null);
 
@@ -304,7 +304,7 @@ public sealed class MailQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Mail)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(jsonResponse);
         _customSerializer.TryDeserialize<Mail>(jsonResponse).Throws(new JsonException("Serialization error"));
 
@@ -358,7 +358,7 @@ public sealed class MailQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Mail)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Throws(new HttpRequestException("OpenAI API error"));
 
         // Act & Assert
@@ -457,7 +457,7 @@ public sealed class MailQueryHandlerTests
         await _handler.HandleAsync(query);
 
         // Assert
-        await _openAiExerciseService.Received(1).PromptForExercise(
+        await _openAiExerciseService.Received(1).CompleteChatAsync(
             Arg.Is<string>(prompt => 
                 prompt.Contains("1. This is open form - mail exercise. This means that you need to generate a short description of the email to be written by the student. Add information on who the email should be to.") &&
                 prompt.Contains(formattedPrompt) &&
@@ -500,7 +500,7 @@ public sealed class MailQueryHandlerTests
             _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString);
             _objectSamplerService.GetSampleJson(typeof(Mail));
             _promptFormatter.FormatExerciseBaseData(query);
-            _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage);
+            _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage);
             _customSerializer.TryDeserialize<Mail>(Arg.Any<string>());
             _eventDispatcher.PublishAsync(Arg.Any<OpenFormGenerated<Mail>>());
         });
@@ -539,7 +539,7 @@ public sealed class MailQueryHandlerTests
 
         // Assert
         result.ShouldNotBeNull();
-        await _openAiExerciseService.Received(1).PromptForExercise(
+        await _openAiExerciseService.Received(1).CompleteChatAsync(
             Arg.Is<string>(prompt => prompt.Contains("minimum number of words in email - 0")),
             query.MotherLanguage, 
             query.TargetLanguage);
@@ -574,7 +574,7 @@ public sealed class MailQueryHandlerTests
 
         // Assert
         result.ShouldNotBeNull();
-        await _openAiExerciseService.Received(1).PromptForExercise(
+        await _openAiExerciseService.Received(1).CompleteChatAsync(
             Arg.Is<string>(prompt => prompt.Contains("minimum number of words in email - -50")),
             query.MotherLanguage, 
             query.TargetLanguage);
@@ -648,7 +648,7 @@ public sealed class MailQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Mail)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(openAiResponse);
         
         // Create a mock Mail object that matches the JSON structure

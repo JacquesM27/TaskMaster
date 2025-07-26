@@ -3,6 +3,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\Infra\TaskMaster.Events\TaskMaster.Events.csproj" />
         <ProjectReference Include="..\..\..\Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj" />
+        <ProjectReference Include="..\..\..\TaskMaster.OpenAi.Client\TaskMaster.OpenAi.Client.csproj" />
         <ProjectReference Include="..\..\..\TasMaster.Queries\TasMaster.Queries.csproj" />
     </ItemGroup>
 

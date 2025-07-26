@@ -4,13 +4,12 @@ using Shouldly;
 using TaskMaster.Abstractions.Queries;
 using TaskMaster.Models.Exercises.OpenForm;
 using TaskMaster.Models.Teaching.Assignment;
-using TaskMaster.Models.Teaching.School;
 using TaskMaster.Modules.Teaching.Entities;
 using TaskMaster.Modules.Teaching.Repositories;
 using TaskMaster.Modules.Teaching.Services;
 using TasMaster.Queries.Exercises.OpenForm;
 
-namespace TaskMaster.Modules.Teaching.Tests.Services;
+namespace TaskMaster.Modules.Teaching.Tests.Unit.Services;
 
 public sealed class AssignmentServiceTests
 {

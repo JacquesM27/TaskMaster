@@ -45,7 +45,7 @@ public sealed class OpenAiExerciseServiceTests
         // Note: This test requires mocking the OpenAI client which is created internally
         // For a proper implementation, OpenAIClient should be injected as a dependency
         await Should.ThrowAsync<Exception>(() => 
-            _openAiExerciseService.PromptForExercise(prompt, motherLanguage, targetLanguage));
+            _openAiExerciseService.CompleteChatAsync(prompt, motherLanguage, targetLanguage));
         
         // Verify formatter was called
         _promptFormatter.Received(1).FormatStartingSystemMessage(motherLanguage, targetLanguage);
@@ -65,7 +65,7 @@ public sealed class OpenAiExerciseServiceTests
 
         // Act & Assert
         await Should.ThrowAsync<Exception>(() => 
-            _openAiExerciseService.PromptForExercise(prompt, motherLanguage, targetLanguage));
+            _openAiExerciseService.CompleteChatAsync(prompt, motherLanguage, targetLanguage));
     }
 
     [Theory]
@@ -82,7 +82,7 @@ public sealed class OpenAiExerciseServiceTests
 
         // Act & Assert
         await Should.ThrowAsync<Exception>(() => 
-            _openAiExerciseService.PromptForExercise(prompt, motherLanguage, targetLanguage));
+            _openAiExerciseService.CompleteChatAsync(prompt, motherLanguage, targetLanguage));
     }
 
     #endregion

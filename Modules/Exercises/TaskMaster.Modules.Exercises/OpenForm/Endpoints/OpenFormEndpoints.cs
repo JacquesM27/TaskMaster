@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using TaskMaster.Models.Exercises.OpenForm;
-using TaskMaster.OpenAi.Extensions;
-using TaskMaster.OpenAi.OpenForm.Queries;
+using TaskMaster.Modules.Exercises.Extension;
 
-namespace TaskMaster.OpenAi.OpenForm.Endpoints;
+namespace TaskMaster.Modules.Exercises.OpenForm.Endpoints;
 
 internal static class OpenFormEndpoints
 {

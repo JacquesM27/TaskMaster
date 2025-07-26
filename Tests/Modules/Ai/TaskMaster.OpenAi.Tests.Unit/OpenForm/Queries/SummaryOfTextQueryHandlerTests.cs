@@ -223,7 +223,7 @@ public sealed class SummaryOfTextQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(SummaryOfText)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(invalidJsonResponse);
         _customSerializer.TryDeserialize<SummaryOfText>(invalidJsonResponse).Returns((SummaryOfText?)null);
 
@@ -259,7 +259,7 @@ public sealed class SummaryOfTextQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(SummaryOfText)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(validJsonResponse);
         _customSerializer.TryDeserialize<SummaryOfText>(validJsonResponse).Returns((SummaryOfText?)null);
 
@@ -284,7 +284,7 @@ public sealed class SummaryOfTextQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(SummaryOfText)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(emptyJsonResponse);
         _customSerializer.TryDeserialize<SummaryOfText>(emptyJsonResponse).Returns((SummaryOfText?)null);
 
@@ -309,7 +309,7 @@ public sealed class SummaryOfTextQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(SummaryOfText)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(jsonResponse);
         _customSerializer.TryDeserialize<SummaryOfText>(jsonResponse).Throws(new JsonException("Serialization error"));
 
@@ -363,7 +363,7 @@ public sealed class SummaryOfTextQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(SummaryOfText)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Throws(new HttpRequestException("OpenAI API error"));
 
         // Act & Assert
@@ -464,7 +464,7 @@ public sealed class SummaryOfTextQueryHandlerTests
         await _handler.HandleAsync(query);
 
         // Assert
-        await _openAiExerciseService.Received(1).PromptForExercise(
+        await _openAiExerciseService.Received(1).CompleteChatAsync(
             Arg.Is<string>(prompt => 
                 prompt.Contains("1. This is open form - summary of text exercise. This means that you need to generate a story (about 10 sentences) to be summarized by the student.") &&
                 prompt.Contains(formattedPrompt) &&
@@ -507,7 +507,7 @@ public sealed class SummaryOfTextQueryHandlerTests
             _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString);
             _objectSamplerService.GetSampleJson(typeof(SummaryOfText));
             _promptFormatter.FormatExerciseBaseData(query);
-            _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage);
+            _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage);
             _customSerializer.TryDeserialize<SummaryOfText>(Arg.Any<string>());
             _eventDispatcher.PublishAsync(Arg.Any<OpenFormGenerated<SummaryOfText>>());
         });
@@ -649,7 +649,7 @@ public sealed class SummaryOfTextQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(SummaryOfText)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(openAiResponse);
         
         // Create a mock SummaryOfText object that matches the JSON structure

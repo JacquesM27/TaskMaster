@@ -219,7 +219,7 @@ public sealed class EssayQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Essay)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(invalidJsonResponse);
         _customSerializer.TryDeserialize<Essay>(invalidJsonResponse).Returns((Essay?)null);
 
@@ -254,7 +254,7 @@ public sealed class EssayQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Essay)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(validJsonResponse);
         _customSerializer.TryDeserialize<Essay>(validJsonResponse).Returns((Essay?)null);
 
@@ -279,7 +279,7 @@ public sealed class EssayQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Essay)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(emptyJsonResponse);
         _customSerializer.TryDeserialize<Essay>(emptyJsonResponse).Returns((Essay?)null);
 
@@ -304,7 +304,7 @@ public sealed class EssayQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Essay)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(jsonResponse);
         _customSerializer.TryDeserialize<Essay>(jsonResponse).Throws(new JsonException("Serialization error"));
 
@@ -358,7 +358,7 @@ public sealed class EssayQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Essay)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Throws(new HttpRequestException("OpenAI API error"));
 
         // Act & Assert
@@ -457,7 +457,7 @@ public sealed class EssayQueryHandlerTests
         await _handler.HandleAsync(query);
 
         // Assert
-        await _openAiExerciseService.Received(1).PromptForExercise(
+        await _openAiExerciseService.Received(1).CompleteChatAsync(
             Arg.Is<string>(prompt => 
                 prompt.Contains("1. This is open form - essay exercise") &&
                 prompt.Contains(formattedPrompt) &&
@@ -500,7 +500,7 @@ public sealed class EssayQueryHandlerTests
             _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString);
             _objectSamplerService.GetSampleJson(typeof(Essay));
             _promptFormatter.FormatExerciseBaseData(query);
-            _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage);
+            _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage);
             _customSerializer.TryDeserialize<Essay>(Arg.Any<string>());
             _eventDispatcher.PublishAsync(Arg.Any<OpenFormGenerated<Essay>>());
         });
@@ -539,7 +539,7 @@ public sealed class EssayQueryHandlerTests
 
         // Assert
         result.ShouldNotBeNull();
-        await _openAiExerciseService.Received(1).PromptForExercise(
+        await _openAiExerciseService.Received(1).CompleteChatAsync(
             Arg.Is<string>(prompt => prompt.Contains("minimum number of words in essay - 0")),
             query.MotherLanguage, 
             query.TargetLanguage);
@@ -574,7 +574,7 @@ public sealed class EssayQueryHandlerTests
 
         // Assert
         result.ShouldNotBeNull();
-        await _openAiExerciseService.Received(1).PromptForExercise(
+        await _openAiExerciseService.Received(1).CompleteChatAsync(
             Arg.Is<string>(prompt => prompt.Contains("minimum number of words in essay - -100")),
             query.MotherLanguage, 
             query.TargetLanguage);
@@ -648,7 +648,7 @@ public sealed class EssayQueryHandlerTests
         _openAiExerciseService.ValidateAvoidingOriginTopic(queryAsString).Returns(suspiciousPromptResponse);
         _objectSamplerService.GetSampleJson(typeof(Essay)).Returns(exerciseJsonFormat);
         _promptFormatter.FormatExerciseBaseData(query).Returns(formattedPrompt);
-        _openAiExerciseService.PromptForExercise(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
+        _openAiExerciseService.CompleteChatAsync(Arg.Any<string>(), query.MotherLanguage, query.TargetLanguage)
             .Returns(openAiResponse);
         
         // Create a mock Essay object that matches the JSON structure

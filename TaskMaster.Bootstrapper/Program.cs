@@ -4,6 +4,7 @@ using TaskMaster.Modules.Accounts;
 using TaskMaster.Modules.Exercises;
 using TaskMaster.Modules.Teaching;
 using TaskMaster.OpenAi;
+using TaskMaster.OpenAi.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(AppDomain.CurrentDomain.GetAssemblies().ToList(), builder.Configuration);
 builder.Services.AddOpenAi();
+builder.Services.AddOpenAiClient();
 builder.Services.AddAccounts();
 builder.Services.AddExercisesModule();
 builder.Services.AddTeachingModule();
@@ -49,6 +51,9 @@ app.Run();
 
 
 
-public partial class Program
+namespace TaskMaster.Bootstrapper
 {
+    public partial class Program
+    {
+    }
 }

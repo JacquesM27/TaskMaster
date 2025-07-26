@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Infra\TaskMaster.Models.Exercises\TaskMaster.Models.Exercises.csproj" />
+    <ProjectReference Include="..\Modules\Ai\TaskMaster.OpenAi\TaskMaster.OpenAi.csproj" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

@@ -1,17 +1,13 @@
-﻿using System.Text.Json;
-using TaskMaster.Abstractions.Events;
+﻿using TaskMaster.Abstractions.Events;
 using TaskMaster.Abstractions.Queries;
 using TaskMaster.Abstractions.Serialization;
 using TaskMaster.Events.Exercises.OpenForm;
 using TaskMaster.Events.SupiciousPrompts;
-using TaskMaster.Models.Exercises.Base;
 using TaskMaster.Models.Exercises.OpenForm;
-using TaskMaster.OpenAi.Exceptions;
+using TaskMaster.Models.Exercises.OpenForm.Queries;
 using TaskMaster.OpenAi.Services;
 
-namespace TaskMaster.OpenAi.OpenForm.Queries;
-
-internal sealed class SummaryOfTextQuery : ExerciseQueryBase, IQuery<SummaryOfTextResponseOpenForm>;
+namespace TaskMaster.Modules.Exercises.QueryHandlers;
 
 internal sealed class SummaryOfTextQueryHandler(
     IPromptFormatter promptFormatter,
@@ -40,7 +36,7 @@ internal sealed class SummaryOfTextQueryHandler(
                     """;
 
          var response =
-             await openAiExerciseService.PromptForExercise(prompt, query.MotherLanguage, query.TargetLanguage);
+             await openAiExerciseService.CompleteChatAsync(prompt, query.MotherLanguage, query.TargetLanguage);
 
          var exercise = customSerializer.TryDeserialize<SummaryOfText>(response)
                         ?? throw new DeserializationException(response);
