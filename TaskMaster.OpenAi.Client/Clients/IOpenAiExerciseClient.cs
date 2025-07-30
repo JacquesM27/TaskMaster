@@ -5,7 +5,7 @@ namespace TaskMaster.OpenAi.Client.Clients;
 
 public interface IOpenAiExerciseClient
 {
-    public Task<Essay> PromptForEssay(EssayRequestDto request);
-    public Task<Mail> PromptForMail(MailRequestDto request);
-    public Task<SummaryOfText> PromptForSummaryOfText(SummaryOfTextRequestDto request);
+    public Task<Essay> PromptForEssay(EssayRequestDto request, CancellationToken cancellationToken);
+    public Task<Mail> PromptForMail(MailRequestDto request, CancellationToken cancellationToken);
+    public Task<SummaryOfText> PromptForSummaryOfText(SummaryOfTextRequestDto request, CancellationToken cancellationToken);
 }

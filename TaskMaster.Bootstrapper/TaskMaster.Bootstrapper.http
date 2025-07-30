@@ -1,6 +1,32 @@
 @TaskMaster.Bootstrapper_HostAddress = http://localhost:5232
 
-GET {{TaskMaster.Bootstrapper_HostAddress}}/weatherforecast/
+###
+# @name auth
+POST {{TaskMaster.Bootstrapper_HostAddress}}/Account/sign-in
 Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "admin@taskmaster.com",
+  "password": "SuperSecretAdminPassword123!"
+}
 
 ###
+@authToken = {{auth.response.body.$.accessToken.generatedToken}}
+
+###
+POST {{TaskMaster.Bootstrapper_HostAddress}}/open-form-ai/mail
+Accept: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "exerciseHeaderInMotherLanguage": true,
+  "motherLanguage": "polish",
+  "targetLanguage": "english",
+  "targetLanguageLevel": "b2",
+  "topicsOfSentences": "wakacyjna praca na pół etatu na plaży",
+  "grammarSection": "czasy przyszłe (wszystkie)",
+  "supportMaterial": "",
+  "minimumNumberOfWords": 200
+}

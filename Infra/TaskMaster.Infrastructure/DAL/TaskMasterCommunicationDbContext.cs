@@ -5,7 +5,7 @@ using TaskMaster.Infrastructure.Events;
 
 namespace TaskMaster.Infrastructure.DAL;
 
-internal sealed class TaskMasterDbContext(DbContextOptions<TaskMasterDbContext> options) : DbContext(options)
+internal sealed class TaskMasterCommunicationDbContext(DbContextOptions<TaskMasterCommunicationDbContext> options) : DbContext(options)
 {
     public DbSet<OutboxMessage> OutboxMessages { get; set; }
     public DbSet<DomainEventData> DomainEvents { get; set; }

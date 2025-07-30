@@ -43,7 +43,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseInfrastructure();
-app.UseOpenAi();
 
 app.MapControllers();
 

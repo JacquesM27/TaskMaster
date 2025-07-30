@@ -5,7 +5,7 @@ namespace TaskMaster.Modules.Exercises.Services;
 
 public interface IOpenFormGenerationService
 {
-    public Task<EssayResponseOpenForm> GenerateEssay(EssayRequestDto request);
-    public Task<MailResponseOpenForm> GenerateMail(MailRequestDto request);
-    public Task<SummaryOfTextResponseOpenForm> GenerateSummaryOfText(SummaryOfTextRequestDto request);
+    public Task<EssayDto> GenerateEssay(EssayRequestDto request, CancellationToken cancellationToken);
+    public Task<MailDto> GenerateMail(MailRequestDto request, CancellationToken cancellationToken);
+    public Task<SummaryOfTextDto> GenerateSummaryOfText(SummaryOfTextRequestDto request, CancellationToken cancellationToken);
 }

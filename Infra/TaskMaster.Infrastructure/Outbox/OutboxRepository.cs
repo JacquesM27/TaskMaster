@@ -4,7 +4,7 @@ using TaskMaster.Infrastructure.DAL;
 
 namespace TaskMaster.Infrastructure.Outbox;
 
-internal sealed class OutboxRepository(TaskMasterDbContext context) : IOutboxRepository
+internal sealed class OutboxRepository(TaskMasterCommunicationDbContext context) : IOutboxRepository
 {
     public async Task AddAsync(OutboxMessage message, CancellationToken cancellationToken = default)
     {

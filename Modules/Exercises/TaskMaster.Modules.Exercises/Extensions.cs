@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TaskMaster.Infrastructure.DAL;
 using TaskMaster.Modules.Exercises.DAL;
 using TaskMaster.Modules.Exercises.DAL.Repositories;
-using TaskMaster.Modules.Exercises.OpenForm.Endpoints;
 using TaskMaster.Modules.Exercises.Repositories;
 using TaskMaster.Modules.Exercises.Services;
 
@@ -16,14 +14,8 @@ public static class Extensions
         services
             .AddPostgres<ExercisesDbContext, DatabaseInitializer>()
             .AddScoped<IOpenFormRepository, OpenFormRepository>()
-            .AddTransient<IOpenFormService, OpenFormService>();
+            .AddTransient<IOpenFormService, OpenFormService>()
+            .AddTransient<IOpenFormGenerationService, OpenFormGenerationService>();
         return services;
-    }
-    
-    public static WebApplication UseOpenAi(this WebApplication app)
-    {
-        app.AddOpenFormEndpoints();
-
-        return app;
     }
 }

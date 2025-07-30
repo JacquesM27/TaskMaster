@@ -14,9 +14,9 @@ internal sealed class OpenAiExerciseClient(
     IOpenAiExerciseService openAiExerciseService,
     ICustomSerializer customSerializer) : IOpenAiExerciseClient
 {
-    public async Task<Essay> PromptForEssay(EssayRequestDto request)
+    public async Task<Essay> PromptForEssay(EssayRequestDto request, CancellationToken cancellationToken)
     {
-        await ValidateAvoidingOriginTopic(request);
+        await ValidateAvoidingOriginTopic(request, cancellationToken);
         
         var startMessage = promptFormatter.FormatStartingSystemMessage(request.MotherLanguage, request.TargetLanguage);
         var exerciseJsonFormat = objectSamplerService.GetSampleJson(typeof(Essay));
@@ -30,15 +30,15 @@ internal sealed class OpenAiExerciseClient(
                    {exerciseJsonFormat}
                    """;
         var response =
-            await openAiExerciseService.CompleteChatAsync(startMessage, prompt);
+            await openAiExerciseService.CompleteChatAsync(startMessage, prompt, cancellationToken);
         var exercise = customSerializer.TryDeserialize<Essay>(response)
                        ?? throw new DeserializationException(response);
         return exercise;
     }
 
-    public async Task<Mail> PromptForMail(MailRequestDto request)
+    public async Task<Mail> PromptForMail(MailRequestDto request, CancellationToken cancellationToken)
     {
-        await ValidateAvoidingOriginTopic(request);
+        await ValidateAvoidingOriginTopic(request, cancellationToken);
         
         var startMessage = promptFormatter.FormatStartingSystemMessage(request.MotherLanguage, request.TargetLanguage);
         var exerciseJsonFormat = objectSamplerService.GetSampleJson(typeof(Mail));
@@ -52,15 +52,15 @@ internal sealed class OpenAiExerciseClient(
                    {exerciseJsonFormat}
                    """;
         var response =
-            await openAiExerciseService.CompleteChatAsync(startMessage, prompt);
+            await openAiExerciseService.CompleteChatAsync(startMessage, prompt, cancellationToken);
         var exercise = customSerializer.TryDeserialize<Mail>(response)
                        ?? throw new DeserializationException(response);
         return exercise;
     }
 
-    public async Task<SummaryOfText> PromptForSummaryOfText(SummaryOfTextRequestDto request)
+    public async Task<SummaryOfText> PromptForSummaryOfText(SummaryOfTextRequestDto request, CancellationToken cancellationToken)
     {
-        await ValidateAvoidingOriginTopic(request);
+        await ValidateAvoidingOriginTopic(request, cancellationToken);
         
         var startMessage = promptFormatter.FormatStartingSystemMessage(request.MotherLanguage, request.TargetLanguage);
         var exerciseJsonFormat = objectSamplerService.GetSampleJson(typeof(SummaryOfText));
@@ -72,18 +72,18 @@ internal sealed class OpenAiExerciseClient(
                    {exerciseJsonFormat}
                    """;
         var response =
-            await openAiExerciseService.CompleteChatAsync(startMessage, prompt);
+            await openAiExerciseService.CompleteChatAsync(startMessage, prompt, cancellationToken);
         var exercise = customSerializer.TryDeserialize<SummaryOfText>(response)
                        ?? throw new DeserializationException(response);
         return exercise;
     }
 
-    private async Task ValidateAvoidingOriginTopic<TRequest>(TRequest request)
+    private async Task ValidateAvoidingOriginTopic<TRequest>(TRequest request, CancellationToken cancellationToken)
         where TRequest : ExerciseRequestBase
     {
         var queryAsString = objectSamplerService.GetStringValues(request);
         var validationStartMessage = promptFormatter.FormatValidationSystemMessage();
-        var validationResponse = await openAiExerciseService.CompleteChatAsync(validationStartMessage, queryAsString);
+        var validationResponse = await openAiExerciseService.CompleteChatAsync(validationStartMessage, queryAsString, cancellationToken);
         var validationResult = customSerializer.TryDeserialize<SuspiciousPrompt>(validationResponse)
                                ?? throw new DeserializationException(validationResponse);
         if (validationResult.IsSuspicious)

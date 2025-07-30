@@ -10,14 +10,14 @@ internal sealed class OpenAiExerciseService(IOptions<OpenAiSettings> settings) :
     private readonly OpenAIClient _client = new(settings.Value.ApiKey);
     private const string DefaultModel = "gpt-4o-2024-11-20";
 
-    public async Task<string> CompleteChatAsync(string startMessage, string prompt)
+    public async Task<string> CompleteChatAsync(string startMessage, string prompt, CancellationToken cancellationToken)
     {
         var messages = new ChatMessage[]
         {
             ChatMessage.CreateSystemMessage(startMessage),
             ChatMessage.CreateUserMessage(prompt)
         };
-        var chatResponse = await _client.GetChatClient(DefaultModel).CompleteChatAsync(messages);
+        var chatResponse = await _client.GetChatClient(DefaultModel).CompleteChatAsync(messages, cancellationToken: cancellationToken);
         var response = chatResponse.Value.Content[0].Text;
         return response;
     }

@@ -6,7 +6,7 @@ using TaskMaster.Infrastructure.DAL;
 namespace TaskMaster.Infrastructure.Events;
 
 // Domain Event Store - for event sourcing within aggregates
-internal sealed class DomainEventStore(TaskMasterDbContext context) : IDomainEventStore
+internal sealed class DomainEventStore(TaskMasterCommunicationDbContext context) : IDomainEventStore
 {
     public async Task SaveAsync<T>(T @event, CancellationToken cancellationToken = default) where T : IDomainEvent
     {
@@ -74,7 +74,7 @@ internal sealed class DomainEventStore(TaskMasterDbContext context) : IDomainEve
 }
 
 // Integration Event Store - for cross-module communication
-internal sealed class IntegrationEventStore(TaskMasterDbContext context) : IIntegrationEventStore
+internal sealed class IntegrationEventStore(TaskMasterCommunicationDbContext context) : IIntegrationEventStore
 {
     public async Task SaveAsync<T>(T @event, CancellationToken cancellationToken = default) where T : IIntegrationEvent
     {

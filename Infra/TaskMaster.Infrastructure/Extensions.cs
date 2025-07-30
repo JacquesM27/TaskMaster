@@ -57,8 +57,9 @@ public static class Extensions
 
     private static IServiceCollection AddOutboxPattern(this IServiceCollection services)
     {
-        services.AddDbContext<TaskMasterDbContext>(options =>
-            options.UseNpgsql("Host=localhost;Database=TaskMaster;Username=postgres;Password=postgres"));
+        // services.AddDbContext<TaskMasterDbContext>(options =>
+        //     options.UseNpgsql("Host=localhost;Database=TaskMaster;Username=postgres;Password=postgres"));
+        services.AddPostgres<TaskMasterCommunicationDbContext, CommunicationDatabaseInitializer>();
         
         services.AddScoped<IOutboxRepository, OutboxRepository>();
         services.AddHostedService<OutboxProcessingService>();
