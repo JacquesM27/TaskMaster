@@ -1,5 +1,6 @@
 using Shouldly;
 using TaskMaster.Models.Exercises.Base;
+using TaskMaster.Models.Exercises.Requests.OpenForm;
 using TaskMaster.OpenAi.Services;
 
 namespace TaskMaster.OpenAi.Tests.Unit.Services;
@@ -19,7 +20,7 @@ public sealed class PromptFormatterTests
     public void FormatExerciseBaseData_ShouldFormatCorrectly_WhenAllFieldsProvided()
     {
         // Arrange
-        var baseData = new ExerciseQueryBase
+        var baseData = new MailRequestDto
         {
             MotherLanguage = "Polish",
             TargetLanguage = "English",
@@ -48,7 +49,7 @@ public sealed class PromptFormatterTests
     public void FormatExerciseBaseData_ShouldHandleEmptyTopics_WhenTopicsNotProvided()
     {
         // Arrange
-        var baseData = new ExerciseQueryBase
+        var baseData = new MailRequestDto
         {
             MotherLanguage = "Polish",
             TargetLanguage = "English",
@@ -73,7 +74,7 @@ public sealed class PromptFormatterTests
     public void FormatExerciseBaseData_ShouldSetHeaderLanguageCorrectly_WhenExerciseHeaderInMotherLanguageIsTrue()
     {
         // Arrange
-        var baseData = new ExerciseQueryBase
+        var baseData = new MailRequestDto
         {
             MotherLanguage = "German",
             TargetLanguage = "French",
@@ -93,7 +94,7 @@ public sealed class PromptFormatterTests
     public void FormatExerciseBaseData_ShouldSetHeaderLanguageCorrectly_WhenExerciseHeaderInMotherLanguageIsFalse()
     {
         // Arrange
-        var baseData = new ExerciseQueryBase
+        var baseData = new MailRequestDto
         {
             MotherLanguage = "Spanish",
             TargetLanguage = "Italian",
@@ -120,7 +121,7 @@ public sealed class PromptFormatterTests
         string level, string expectedExplanation)
     {
         // Arrange
-        var baseData = new ExerciseQueryBase
+        var baseData = new MailRequestDto
         {
             MotherLanguage = "Polish",
             TargetLanguage = "English",
@@ -138,7 +139,7 @@ public sealed class PromptFormatterTests
     public void FormatExerciseBaseData_ShouldIncludeAllRequiredSections_WhenCalled()
     {
         // Arrange
-        var baseData = new ExerciseQueryBase
+        var baseData = new MailRequestDto
         {
             MotherLanguage = "Polish",
             TargetLanguage = "English",

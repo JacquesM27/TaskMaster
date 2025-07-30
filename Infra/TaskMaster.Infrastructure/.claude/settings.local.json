@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet test)",
+      "Bash(dotnet test:*)",
+      "Bash(rm:*)",
+      "Bash(dotnet build:*)",
+      "Bash(mkdir:*)",
+      "Bash(dotnet sln add:*)",
+      "Bash(dotnet restore --verbosity quiet)"
+    ],
+    "deny": []
+  }
+}

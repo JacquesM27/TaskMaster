@@ -7,17 +7,14 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>TaskMaster.OpenAi.Tests.Integration</RootNamespace>
+        <RootNamespace>TaskMaster.OpenAi.Client.Tests.Unit</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-        <PackageReference Include="Microsoft.Extensions.Options" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="NSubstitute" Version="5.3.0"/>
-        <PackageReference Include="Shouldly" Version="4.2.1"/>
+        <PackageReference Include="NSubstitute" />
+        <PackageReference Include="Shouldly" />
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio" />
     </ItemGroup>
@@ -27,8 +24,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\..\TaskMaster.OpenAi.Client\TaskMaster.OpenAi.Client.csproj"/>
+        <ProjectReference Include="..\..\..\..\Infra\TaskMaster.Abstractions\TaskMaster.Abstractions.csproj"/>
         <ProjectReference Include="..\..\..\..\Modules\Ai\TaskMaster.OpenAi\TaskMaster.OpenAi.csproj"/>
-        <ProjectReference Include="..\..\..\..\Infra\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj"/>
     </ItemGroup>
     
 </Project>
